@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>添加商品</title>
+    <link rel="stylesheet" href="/css/admin/reset.css">
+    <link rel="stylesheet" href="/css/admin/public.css">
+    <link rel="stylesheet" href="/css/admin/content.css">
+
+    <script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+    <script src="/third-party/kingediter/kindeditor-all-min.js"></script>
+    <script src="/third-party/localResizeIMG/dist/lrz.bundle.js"></script>
+
+
+</head>
+<body marginwidth="0" marginheight="0">
+<div class="container">
+    <div class="public-content">
+        <div class="public-content-header">
+            <h3>添加商品</h3>
+        </div>
+        <div class="public-content-cont">
+            <form action="/goods/add" method="post">
+
+                <input type="file" accept="image/jpeg" capture="camera">
+
+                <div class="form-group">
+                    <label>图片</label>
+                    <input class="form-input-txt" type="text" name="img" value="123.jpg"/>
+                    <div class="file"><input type="file" class="form-input-file"/>选择文件</div>
+                    <div class="file"><input type="button" class="form-input-file"/>预览</div>
+                </div>
+
+                <div class="clearfix"></div>
+                <div class="form-group">
+                    <label>商品名称</label>
+                    <input class="form-input-txt" type="text" name="name" value=""/>
+                </div>
+
+                <div class="clearfix"></div>
+                <div class="form-group">
+                    <label>条形码</label>
+                    <input class="form-input-txt" type="text" name="barcode" value=""/>
+                </div>
+
+                <div class="clearfix"></div>
+                <div class="form-group">
+                    <label>精选级别</label>
+                    <select name="level" class="form-select">
+                        <option value="1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;必选</option>
+                        <option value="2">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;精选</option>
+                        <option value="3" selected>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;普通</option>
+                        <option value="4">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;备选</option>
+                        <option value="5">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;参考</option>
+                    </select>
+                    &nbsp;&nbsp;注：商品精选级别可设置1~5级，1级别最高，每个店铺必备，以后依次降低。
+                </div>
+
+                <div class="clearfix"></div>
+                <div class="form-group">
+                    <label for="">价格设置</label>
+                    <div class="form-item">
+                        <li style="width:200px"><input type="number" name="purchasePrice" value="0">&nbsp;参考进货价（分）</li>
+                        <li style="width:200px"><input type="number" name="salePrice" value="0">&nbsp;参考卖价（分）</li>
+                    </div>
+                </div>
+
+                <div class="clearfix"></div>
+                <div class="form-group">
+                    <label>描述</label>
+                    <textarea id="description" name="description" class="form-input-textara" style="width:50%">
+						123445
+					</textarea>
+                </div>
+
+
+                <div class="form-group" style="margin-left:150px;">
+                    <input type="submit" class="sub-btn" value="提  交"/>
+                    <input type="reset" class="sub-btn" value="重  置"/>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script>
+    KindEditor.ready(function (K) {
+        window.editor = K.create('#description');
+    });
+</script>
+</body>
+</html>
+
+<script>
+    $("input[type=file]").change(function () {
+        /* 压缩图片 */
+        lrz(this.files[0], {
+            width: 50 //设置压缩参数
+        }).then(function (rst) {
+            /* 处理成功后执行 */
+            console.log("start upload")
+            $.ajax({
+                url: "/file/upload",
+                type: "POST",
+                data: {fileName: rst.origin.name, data: rst.base64.split(",")[1], size: rst.fileLen},
+                dataType: "json",
+                success: function (data) {
+                    console.log(data)
+                },
+                error: function (request) {
+                    console.log(request)
+                }
+            });
+        }).catch(function (err) {
+            console.error("上传图片失败: " + err)
+            /* 处理失败后执行 */
+        }).always(function () {
+            /* 必然执行 */
+        })
+    })
+</script>

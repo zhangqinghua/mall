@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>供应商管理</title>
+    <link rel="stylesheet" href="/css/admin/reset.css">
+    <link rel="stylesheet" href="/css/admin/content.css">
+
+    <script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+
+    <link href="http://keleyi.com/keleyi/phtml/jqtexiao/14/keleyidivpager.css" type="text/css" rel="Stylesheet"/>
+    <script type="text/javascript" src="http://keleyi.com/keleyi/phtml/jqtexiao/14/keleyidivpager.js"></script>
+
+    <!--<link rel="stylesheet" href="/third-party/page/page.css">-->
+    <!--<script src="/third-party/page/page.js"></script>-->
+</head>
+<body marginwidth="0" marginheight="0">
+
+
+<div class="container">
+    <div class="public-nav">您当前的位置：<a href="">供应商管理</a>><a href="">供应商管理</a></div>
+    <div class="public-content">
+        <div class="public-content-header">
+            <h3>供应商管理</h3>
+        </div>
+        <div class="public-content-cont two-col">
+
+            <form id="save_form" action="/supplier/save" , method="post">
+                <div class="public-cont-left">
+                    <div class="public-cont-title">
+                        <h3>添加供应商</h3>
+                    </div>
+
+                    <br>
+
+                    <div class="form-group mt0">
+                        <label>供应商名称</label>
+                        <input type="text" class="form-input-small" name="name">
+                    </div>
+
+                    <div class="form-group mt0" style="text-align:center;margin-top:15px;">
+                        <input type="submit" class="sub-btn" value="提   交">
+                    </div>
+
+                </div>
+            </form>
+
+            <form id="update_form" style="display: none" action="/supplier/save" , method="post">
+                <div class="public-cont-left">
+                    <div class="public-cont-title">
+                        <h3>修改供应商</h3>
+                    </div>
+
+                    <br>
+
+                    <div class="form-group mt0">
+                        <input type="hidden" class="form-input-small" name="id" id="update_id">
+                        <label>供应商名称</label>
+                        <input type="text" class="form-input-small" name="name" id="update_name">
+                    </div>
+
+                    <div class="form-group mt0" style="text-align:center;margin-top:15px;">
+                        <input type="submit" class="sub-btn" value="修   改">
+                        <input type="button" class="sub-btn" value="取   消" onclick="$('#update_form').hide();$('#save_form').show();">
+                    </div>
+
+                </div>
+            </form>
+
+
+            <table class="public-cont-table">
+                <tr>
+                    <th style="width:10%">序号</th>
+                    <th style="width:10%">供应商ID</th>
+                    <th style="width:20%">供应商名称</th>
+                    <th style="width:20%">操作</th>
+                </tr>
+
+                <tr th:if="${totalNum != 0}"
+                    th:each="supplier, iterStat : ${list}">
+                    <td th:text="${iterStat.index}"></td>
+                    <td th:text="${supplier.id}"></td>
+                    <td th:text="${supplier.name}"></td>
+                    <td>
+                        <div class="table-fun">
+                            <a href="#" th:attr="onclick='update('+${iterStat.index}+')'" >修改</a>
+                            <a th:href="@{'/supplier/delete?id=' + ${supplier.id}}">删除</a>
+                        </div>
+                    </td>
+                </tr>
+                <tr th:if="${totalNum == 0}">
+                    <td colspan="4">没有数据</td>
+                </tr>
+
+            </table>
+
+            <!-- 分页 -->
+            <div id="div_pager" style="text-align: center"></div>
+
+
+        </div>
+    </div>
+</div>
+</body>
+</html>
+
+<script th:inline="javascript">
+    //生成分页控件 根据分页的形式在这里设置
+    kkpager.init({
+        pno: [[${pageNo}]],
+        //总页码
+        total: [[${totalPage}]],
+        //总数据条数
+        totalRecords: [[${totalNum}]],
+        //链接前部
+        hrefFormer: 'index',
+        //链接尾部
+        hrefLatter: '',
+        getLink: function (n) {
+            return this.hrefFormer + this.hrefLatter + "?pageNo=" + n; //参数名跟上面相同
+        }
+    });
+    kkpager.generPageHtml();
+
+    var suppliers = [[${list}]];
+
+    /**
+     * 修改供应商
+     * @param id
+     */
+    var update = function (index) {
+        $("#save_form").hide()
+        $("#update_form").show();
+
+        $("#update_id").val(suppliers[index].id);
+        $("#update_name").val(suppliers[index].name);
+    }
+</script>

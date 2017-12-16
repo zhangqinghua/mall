@@ -1,0 +1,44 @@
+server:
+  port: 8080
+
+spring:
+  thymeleaf:
+      mode: LEGACYHTML5
+
+  jpa:
+    properties:
+      hibernate:
+        hbm2ddl:
+          auto:update
+
+  datasource:
+    driverClassName: com.mysql.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/mall?useUnicode=yes&characterEncoding=UTF8
+    username: root
+    password:
+    type: com.alibaba.druid.pool.DruidDataSource
+    filters: stat
+    maxActive: 20
+    initialSize: 1
+    maxWait: 60000
+    minIdle: 1
+    timeBetweenEvictionRunsMillis: 60000
+    minEvictableIdleTimeMillis: 300000
+    validationQuery: select 'x'
+    testWhileIdle: true
+    testOnBorrow: false
+    testOnReturn: false
+    poolPreparedStatements: true
+    maxOpenPreparedStatements: 20
+
+
+## 文件上传相关
+file_url: http://owqrqmr2h.bkt.clouddn.com/
+
+##七牛云的key
+qiniu:
+  accessKey: HpHWLi6wgCGI2Lpvd1KCk2HFcLWyY285kAICX3AK
+  secretKey: BbeeH_tY306aanajadMgfUaYgaMve7xQzzC3H3Be
+  bucketName: zhangqinghua
+  basePath: http://owqrqmr2h.bkt.clouddn.com/
+

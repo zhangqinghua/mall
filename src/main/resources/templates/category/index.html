@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>分类管理</title>
+    <link rel="stylesheet" href="/css/admin/reset.css">
+    <link rel="stylesheet" href="/css/admin/content.css">
+
+    <script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+
+    <!-- 分页插件 -->
+    <link href="http://keleyi.com/keleyi/phtml/jqtexiao/14/keleyidivpager.css" type="text/css" rel="Stylesheet"/>
+    <script type="text/javascript" src="http://keleyi.com/keleyi/phtml/jqtexiao/14/keleyidivpager.js"></script>
+
+</head>
+<body marginwidth="0" marginheight="0">
+
+
+<div class="container">
+    <div class="public-nav">您当前的位置：<a href="">分类管理</a>><a href="">分类管理</a></div>
+    <div class="public-content">
+        <div class="public-content-header">
+            <h3>分类管理</h3>
+        </div>
+        <div class="public-content-cont two-col">
+
+            <form id="save_form" action="/category/save" , method="post">
+                <div class="public-cont-left">
+                    <div class="public-cont-title">
+                        <h3>添加分类</h3>
+                    </div>
+
+                    <br>
+
+                    <div class="form-group">
+                        <label>上级分类</label>
+                        <select name="parent.id" class="form-select">
+                            <option value="">无</option>
+                            <option th:each="obj, iterStat : ${list}"
+                                    th:value="${obj.id}"
+                                    th:inline="text">
+                                [[${obj.name}]]
+                            </option>
+                        </select>
+                    </div>
+                    <br>
+
+                    <div class="form-group mt0">
+                        <label>分类名称</label>
+                        <input type="text" class="form-input-small" name="name">
+                    </div>
+
+
+                    <div class="form-group mt0" style="text-align:center;margin-top:15px;">
+                        <input type="submit" class="sub-btn" value="提   交">
+                    </div>
+
+                </div>
+            </form>
+
+            <form id="update_form" style="display: none" action="/category/save" , method="post">
+                <div class="public-cont-left">
+                    <div class="public-cont-title">
+                        <h3>修改分类</h3>
+                    </div>
+
+                    <br>
+
+                    <div class="form-group">
+                        <label>上级分类</label>
+                        <select name="parent.id" class="form-select" id="update_parent">
+                            <option value="">无</option>
+                            <option th:each="obj, iterStat : ${list}"
+                                    th:value="${obj.id}"
+                                    th:inline="text">
+                                [[${obj.name}]]
+                            </option>
+                        </select>
+                    </div>
+
+                    <br>
+                    <div class="form-group mt0">
+                        <input type="hidden" class="form-input-small" name="id" id="update_id">
+                        <label>分类名称</label>
+                        <input type="text" id="update_name" class="form-input-small" name="name">
+                    </div>
+
+
+                    <div class="form-group mt0" style="text-align:center;margin-top:15px;">
+                        <input type="submit" class="sub-btn" value="修   改">
+                        <input type="button" class="sub-btn" value="取   消"
+                               onclick="$('#update_form').hide();$('#save_form').show();">
+                    </div>
+                </div>
+            </form>
+
+
+            <table class="public-cont-table">
+                <tr>
+                    <th style="width:10%">序号</th>
+                    <th style="width:10%">分类ID</th>
+                    <th style="width:20%">父分类</th>
+                    <th style="width:20%">分类名称</th>
+                    <th style="width:20%">操作</th>
+                </tr>
+
+                <tr th:if="${totalNum != 0}"
+                    th:each="category, iterStat : ${list}">
+                    <td th:text="${iterStat.index}"></td>
+                    <td th:text="${category.id}"></td>
+                    <td th:text="${category.parent == null ? '无' : category.parent.name + '(' + category.parent.id + ')'}"></td>
+                    <td th:text="${category.name}"></td>
+                    <td>
+                        <div class="table-fun">
+                            <a href="#" th:attr="onclick='update('+${iterStat.index}+')'">修改</a>
+                            <a th:href="@{'/category/delete?id=' + ${category.id}}">删除</a>
+                        </div>
+                    </td>
+                </tr>
+                <tr th:if="${totalNum == 0}">
+                    <td colspan="5">没有数据</td>
+                </tr>
+
+            </table>
+
+            <!-- 分页 -->
+            <div id="div_pager" style="text-align: center"></div>
+
+
+        </div>
+    </div>
+</div>
+</body>
+</html>
+
+<script th:inline="javascript">
+    //生成分页控件 根据分页的形式在这里设置
+    kkpager.init({
+        pno: [[${pageNo}]],
+        //总页码
+        total: [[${totalPage}]],
+        //总数据条数
+        totalRecords: [[${list}]],
+        //链接前部
+        hrefFormer: 'index',
+        //链接尾部
+        hrefLatter: '',
+        getLink: function (n) {
+            return this.hrefFormer + this.hrefLatter + "?pageNo=" + n; //参数名跟上面相同
+        }
+    });
+    kkpager.generPageHtml();
+
+    var categories = [[${list}]];
+
+    /**
+     * 修改供应商
+     * @param id
+     */
+    var update = function (index) {
+        $("#save_form").hide()
+        $("#update_form").show();
+
+        $("#update_id").val(categories[index].id);
+        $("#update_name").val(categories[index].name);
+
+        var parentId = categories[index].parent != null ? categories[index].parent.id : "";
+
+        $.each($("#update_parent > option"), function () {
+            if ($(this).val() == parentId) {
+                $(this).attr("selected", true);
+            } else {
+                $(this).attr("selected", false);
+            }
+        });
+    }
+</script>
