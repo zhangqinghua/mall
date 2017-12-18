@@ -38,7 +38,7 @@ public class Goods {
     /**
      * 商品精选级别可设置1~5级，1级别最高，每个店铺必备，以后依次降低；1：必选，2：精选，3：普通，4：备选，5：参考。
      */
-    private int level = 3;
+    private int rating = 3;
 
     /**
      * 参考进货价，单位分

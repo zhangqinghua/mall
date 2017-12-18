@@ -1,0 +1,182 @@
+body {
+    font-family: 'Poppins', sans-serif;
+    color: #333;
+    padding: 5px 0px 20px 0px;
+    /*overflow: hidden;*/
+    font-size: 13px;
+    line-height: 21px;
+    margin-top: 0px;
+    letter-spacing: 0.5px;
+}
+
+table {
+    margin: 10px 0;
+    border: medium none;
+    width: 100%;
+}
+
+/*表格行样式*/
+th, td {
+    text-align: center;
+    font-size: 12px;
+    line-height: 20px;
+    padding: 10px;
+    letter-spacing: 0.5px;
+    border: 1px solid #eaeaea;
+    font-family: 'Poppins', sans-serif;
+    color: #333;
+}
+
+form input[type=radio] {
+    width: initial;
+    display: inline-block;
+    margin: 0 5px 0 0;
+    vertical-align: middle;
+}
+
+ul {
+    margin: auto;
+    padding: 0px;
+}
+
+li {
+    margin-bottom: 0px;
+    list-style: none;
+}
+
+form label {
+    color: #333;
+    font-size: 13px;
+    letter-spacing: 1px;
+    font-weight: normal
+}
+
+form em {
+    color: #ff0000;
+}
+
+form input {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 4px;
+    line-height: 20px;
+    background: #fff;
+    border: 1px solid #ddd;
+    box-shadow: 0 0 0px rgba(0, 0, 0, 0.1) inset;
+    outline: none;
+    color: #aaa;
+}
+
+select {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 4px;
+    line-height: 20px;
+    background: #fff;
+    border: 1px solid #ddd;
+    box-shadow: 0 0 0px rgba(0, 0, 0, 0.1) inset;
+    outline: none;
+    color: #aaa;
+}
+
+option {
+    width: 80%;
+    padding: 10px;
+    margin-bottom: 4px;
+    line-height: 20px;
+    background: #fff;
+    border: 1px solid #ddd;
+    box-shadow: 0 0 0px rgba(0, 0, 0, 0.1) inset;
+    outline: none;
+    color: #aaa;
+}
+
+textarea {
+    border: 1px #f1f1f1 solid;
+    padding: 10px;
+    outline: none;
+    color: #aaa;
+    width: 100%;
+    margin-top: 4px;
+    height: 8em;
+    background: #fff;
+    margin-bottom: 8px;
+}
+
+button.button {
+    background: none repeat scroll 0 0 #fff;
+    color: #666;
+    display: inline-block;
+    font-size: 10px;
+    letter-spacing: 0.5px;
+    line-height: normal;
+    padding: 6px 12px;
+    text-transform: uppercase;
+    border: 1px #d1d1d1 solid;
+    margin-top: 10px;
+    font-weight: 600;
+}
+
+button.submit{
+    width: 100%;
+    height:40px;
+}
+
+.review1 {
+    display: inline-block;
+    width: 45%;
+    float: left;
+}
+
+.review2 {
+    display: inline-block;
+    width: 55%;
+}
+
+@media only screen and (max-width: 479px) and (min-width: 320px) {
+    .review1,
+    .review2 {
+        width: 100%;
+    }
+}
+
+/*图片上传相关的*/
+.upload-pick-li {
+    position: relative;
+    float: left;
+    display: inline-block;
+    width: 60px;
+    height: 60px;
+    margin: 0 10px 10px 0;
+    -moz-border-radius: 2px;
+    -webkit-border-radius: 2px;
+    border-radius: 2px;
+    background: url(/images/upload-bj.png) no-repeat 0 0;
+    background-size: 60px 120px;
+}
+
+
+.upload-pick-li:hover {
+    background: url(/images/upload-bj.png) no-repeat 0 -60px;
+    background-size: 60px 120px;
+}
+
+/*.upload-pick-div {*/
+    /*position: absolute;*/
+    /*top: 0px;*/
+    /*left: 0px;*/
+    /*width: 50px;*/
+    /*height: 50px;*/
+/*}*/
+
+.upload-pick-input {
+    cursor: pointer;
+    opacity: 0;
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    width: 60px;
+    height: 60px;
+    /*width: 100%;*/
+    /*height: 100%;*/
+}

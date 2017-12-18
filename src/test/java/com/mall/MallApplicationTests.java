@@ -5,6 +5,7 @@ import com.mall.dao.GoodsDAO;
 import com.mall.entity.Category;
 import com.mall.entity.Goods;
 import com.mall.entity.GoodsSupplier;
+import com.mall.service.CategoryService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,7 +23,7 @@ public class MallApplicationTests {
     private GoodsDAO goodsDAO;
 
     @Autowired
-    private CategoryDAO categoryDAO;
+    private CategoryService categoryService;
 
     @Test
     public void contextLoads() {
@@ -55,12 +56,13 @@ public class MallApplicationTests {
     @Test
     public void testCategory() {
         Category category = new Category();
+        category.setId(4l);
         category.setName("测试分类2");
 
         Category parent = new Category();
-        parent.setId(1l);
+        parent.setId(2l);
         category.setParent(parent);
-        categoryDAO.save(category);
+        categoryService.save(category);
 
     }
 

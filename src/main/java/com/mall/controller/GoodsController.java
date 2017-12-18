@@ -1,9 +1,15 @@
 package com.mall.controller;
 
+import com.mall.entity.Category;
 import com.mall.entity.Goods;
+import com.mall.entity.Supplier;
+import com.mall.service.CategoryService;
 import com.mall.service.GoodsService;
+import com.mall.service.SupplierService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
@@ -13,6 +19,10 @@ public class GoodsController {
 
     @Autowired
     private GoodsService goodsService;
+    @Autowired
+    private CategoryService categoryService;
+    @Autowired
+    private SupplierService supplierService;
 
     @RequestMapping("/test")
     public String test() {
@@ -20,8 +30,13 @@ public class GoodsController {
     }
 
     @RequestMapping(value = "/add", method = RequestMethod.GET)
-    public String add() {
-        return "goods/add";
+    public String add(Model model) {
+        Page<Category> categoriePage = categoryService.findAll();
+        Page<Supplier> suppliersPage = supplierService.findAll();
+
+        model.addAttribute("categories", categoriePage.getContent());
+        model.addAttribute("suppliers", suppliersPage.getContent());
+        return "goods/add1";
     }
 
     @RequestMapping(value = "/add", method = RequestMethod.POST)

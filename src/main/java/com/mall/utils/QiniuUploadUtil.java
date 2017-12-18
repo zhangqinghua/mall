@@ -104,7 +104,7 @@ public class QiniuUploadUtil {
         int year = instance.get(Calendar.YEAR);
         int month = instance.get(Calendar.MONTH) + 1;
         int day = instance.get(Calendar.DATE);
-        String filePath = "file/" + year + "/" + month + "/" + day;
+        String filePath = "/file/" + year + "/" + month + "/" + day;
         String fileName = new SimpleDateFormat("HHmmssSSS").format(new Date()) + (int) (Math.random() * 9000 + 1000);
         return filePath + "/" + fileName + suffix;
     }
