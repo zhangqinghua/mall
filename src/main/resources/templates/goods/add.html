@@ -1,111 +1,218 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
+
 <head>
-    <meta charset="UTF-8">
-    <title>添加商品</title>
-    <link rel="stylesheet" href="/css/admin/reset.css">
-    <link rel="stylesheet" href="/css/admin/public.css">
-    <link rel="stylesheet" href="/css/admin/content.css">
-
-    <script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+    <title>input</title>
+    <div th:replace="common"/>
+    <!-- 需要先加载common里面的样式才能加载add.css -->
+    <link rel="stylesheet" href="/css/goods/add.css">
+    <!-- 富文本编辑框 -->
     <script src="/third-party/kingediter/kindeditor-all-min.js"></script>
+    <!-- 图片压缩上传 -->
     <script src="/third-party/localResizeIMG/dist/lrz.bundle.js"></script>
-
-
 </head>
-<body marginwidth="0" marginheight="0">
+
+<body>
 <div class="container">
-    <div class="public-content">
-        <div class="public-content-header">
-            <h3>添加商品</h3>
-        </div>
-        <div class="public-content-cont">
-            <form action="/goods/add" method="post">
+    <form method="post" action="/goods/add">
+        <!-- 表单标题 -->
+        <h3>创建新产品</h3>
+        <fieldset>
+            <div class="review0">
+                <label>展示图片（200 * 200）<em class="required">*</em></label>
+                <ul class="upload-pick-ul">
+                    <li class="upload-pick-li">
+                        <input type="file" class="upload-pick-input" accept="image/*">
+                    </li>
+                    <li class="upload-pick-li">
+                        <input type="file" class="upload-pick-input" accept="image/*">
+                    </li>
+                    <li class="upload-pick-li">
+                        <input type="file" class="upload-pick-input" accept="image/*">
+                    </li>
+                    <li class="upload-pick-li">
+                        <input type="file" class="upload-pick-input" accept="image/*">
+                    </li>
+                    <li class="upload-pick-li">
+                        <input type="file" class="upload-pick-input" accept="image/*">
+                    </li>
+                    <input type="hidden" name="img">
+                </ul>
+            </div>
 
-                <input type="file" accept="image/jpeg" capture="camera">
+            <div class="review1">
+                <ul>
+                    <li>
+                        <label>产品名称<em class="required">*</em></label>
+                        <div>
+                            <input class="input-text" type="text" name="name">
+                        </div>
+                    </li>
+                    <li>
+                        <label class="required">条形码<em>*</em></label>
+                        <div class="input-box">
+                            <input type="text" class="input-text" name="barcode">
+                        </div>
+                    </li>
+                    <li>
+                        <label class="required">参考进货价（分）<em>*</em></label>
+                        <div class="input-box">
+                            <input type="text" class="input-text" name="purchasePrice">
+                        </div>
+                    </li>
+                    <li>
+                        <label class="required">参考售卖价（分）<em>*</em></label>
+                        <div class="input-box">
+                            <input type="text" class="input-text" name="salePrice">
+                        </div>
+                    </li>
+                    <li>
+                        <label class="required">分类<em>*</em></label>
+                        <div class="input-box">
+                            <select name="category.id">
+                                <option value="">无</option>
+                                <option th:each="obj, iterStat : ${categories}"
+                                        th:value="${obj.id}"
+                                        th:inline="text">
+                                    [[${obj.name}]]
+                                </option>
+                            </select>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+            <div class="review2">
+                <ul>
+                    <li>
+                        <label>精选级别<em class="required">*</em></label>
+                        <div>
+                            <table>
+                                <thead>
+                                <tr class="first last">
+                                    <th><span class="nobr">必选</span></th>
+                                    <th><span class="nobr">精选</span></th>
+                                    <th><span class="nobr">普通</span></th>
+                                    <th><span class="nobr">备选</span></th>
+                                    <th><span class="nobr">参考</span></th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr class="first odd">
+                                    <td class="value">
+                                        <input type="radio" class="radio" value="2" name="rating">
+                                    </td>
+                                    <td class="value">
+                                        <input type="radio" class="radio" value="2" name="rating">
+                                    </td>
+                                    <td class="value">
+                                        <input type="radio" class="radio" value="3" name="rating" checked="checked">
+                                    </td>
+                                    <td class="value">
+                                        <input type="radio" class="radio" value="4" name="rating">
+                                    </td>
+                                    <td class="value last">
+                                        <input type="radio" class="radio" value="5" name="rating">
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </li>
+                    <li>
+                        <label>供应商列表
+                        </label>
+                        <div>
+                            <table class="table-striped">
+                                <thead>
+                                <tr class="first last">
+                                    <th width="30%"><span>供应商</span></th>
+                                    <th width="30%"><span>价格（分）</span></th>
+                                    <th><span>操作</span></th>
+                                </tr>
+                                </thead>
+                                <tbody id="goodsSupplier_body">
+                                <tr>
+                                    <td>
+                                        <select style="padding:0; margin:0;border: none;text-align: center;background: inherit"
+                                                id="goodsSupplier_supplierId">
+                                            <option value="">请选择供应商</option>
+                                            <option th:each="obj, iterStat : ${suppliers}"
+                                                    th:value="${obj.id}"
+                                                    th:inline="text">
+                                                [[${obj.name}]]
+                                            </option>
+                                        </select>
 
-                <div class="form-group">
-                    <label>图片</label>
-                    <input class="form-input-txt" type="text" name="img" value="123.jpg"/>
-                    <div class="file"><input type="file" class="form-input-file"/>选择文件</div>
-                    <div class="file"><input type="button" class="form-input-file"/>预览</div>
-                </div>
+                                    </td>
+                                    <td>
+                                        <input type="text" class="input-text"
+                                               style="padding:0; margin:0;border: none; text-align: center;background: inherit"
+                                               id="goodsSupplier_purchasePrice" placeholder="请输入进货价">
+                                    </td>
+                                    <td>
+                                        <button type="button" class="button"
+                                                style="margin-top: 0;width: 98px;background: inherit"
+                                                id="addSupplier">添加供应商
+                                        </button>
+                                    </td>
+                                </tr>
 
-                <div class="clearfix"></div>
-                <div class="form-group">
-                    <label>商品名称</label>
-                    <input class="form-input-txt" type="text" name="name" value=""/>
-                </div>
+                                </tbody>
+                            </table>
 
-                <div class="clearfix"></div>
-                <div class="form-group">
-                    <label>条形码</label>
-                    <input class="form-input-txt" type="text" name="barcode" value=""/>
-                </div>
+                        </div>
+                    </li>
+                    <li>
+                        <label class="required ">摘要<em>*</em></label>
+                        <div class="input-box">
+                            <textarea rows="3" cols="5" name="shortDescription"></textarea>
+                        </div>
+                    </li>
+                    <li>
+                        <label class="required ">图文详情<em>*</em></label>
+                        <div class="input-box">
+                            <textarea rows="3" cols="5" id="description" name="description" style="width: 100%;height: 500px;"></textarea>
 
-                <div class="clearfix"></div>
-                <div class="form-group">
-                    <label>精选级别</label>
-                    <select name="level" class="form-select">
-                        <option value="1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;必选</option>
-                        <option value="2">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;精选</option>
-                        <option value="3" selected>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;普通</option>
-                        <option value="4">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;备选</option>
-                        <option value="5">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;参考</option>
-                    </select>
-                    &nbsp;&nbsp;注：商品精选级别可设置1~5级，1级别最高，每个店铺必备，以后依次降低。
-                </div>
-
-                <div class="clearfix"></div>
-                <div class="form-group">
-                    <label for="">价格设置</label>
-                    <div class="form-item">
-                        <li style="width:200px"><input type="number" name="purchasePrice" value="0">&nbsp;参考进货价（分）</li>
-                        <li style="width:200px"><input type="number" name="salePrice" value="0">&nbsp;参考卖价（分）</li>
-                    </div>
-                </div>
-
-                <div class="clearfix"></div>
-                <div class="form-group">
-                    <label>描述</label>
-                    <textarea id="description" name="description" class="form-input-textara" style="width:50%">
-						123445
-					</textarea>
-                </div>
-
-
-                <div class="form-group" style="margin-left:150px;">
-                    <input type="submit" class="sub-btn" value="提  交"/>
-                    <input type="reset" class="sub-btn" value="重  置"/>
-                </div>
-            </form>
-        </div>
-    </div>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+            <div class="buttons-set">
+                <button class="button submit" title="Submit Review" type="submit"><span>提交</span></button>
+            </div>
+        </fieldset>
+    </form>
 </div>
-
-<script>
-    KindEditor.ready(function (K) {
-        window.editor = K.create('#description');
-    });
-</script>
 </body>
 </html>
 
-<script>
+<script th:inline="javascript">
+
+    KindEditor.ready(function (K) {
+        window.editor = K.create('#description');
+    });
+
+    /**
+     *  图片上传
+     * */
     $("input[type=file]").change(function () {
+        if (!this.files[0]) {
+            return;
+        }
+        var input = this;
         /* 压缩图片 */
-        lrz(this.files[0], {
-            width: 50 //设置压缩参数
-        }).then(function (rst) {
+        lrz(this.files[0], {width: 1000}).then(function (rst) {
             /* 处理成功后执行 */
-            console.log("start upload")
             $.ajax({
                 url: "/file/upload",
                 type: "POST",
                 data: {fileName: rst.origin.name, data: rst.base64.split(",")[1], size: rst.fileLen},
                 dataType: "json",
                 success: function (data) {
-                    console.log(data)
+                    if (data.status == true) {
+                        $(input).parent().append("<img src='" + data.data + "' style='width: 100%; height: 100%;'>")
+                        $(input).attr("value", data.data);
+                    }
                 },
                 error: function (request) {
                     console.log(request)
@@ -118,4 +225,110 @@
             /* 必然执行 */
         })
     })
+
+
+    // 限制输入框输入数字
+    $("input[name=purchasePrice],input[name=salePrice],input[name=goodsSupplier_purchasePrice]").bind('input propertychange', function () {
+        $(this).val($(this).val().replace(/[^0-9]/ig, ""));
+    });
+
+
+    $("#addSupplier").click(function () {
+        var goodsSupplier_supplierId = $("#goodsSupplier_supplierId  option:selected").val();
+        var goodsSupplier_supplierName = $("#goodsSupplier_supplierId  option:selected").text();
+        var goodsSupplier_purchasePrice = $("#goodsSupplier_purchasePrice").val();
+
+        if (!goodsSupplier_supplierId || !goodsSupplier_purchasePrice) {
+            alert("请选择供应商/进货价！");
+            return;
+        }
+
+        console.log(typeof(goodsSupplierIndex))
+        if (typeof(goodsSupplierIndex) == 'undefined') {
+            goodsSupplierIndex = 0;
+            console.log(typeof(goodsSupplierIndex))
+        }
+        goodsSupplierIndex++;
+
+        var appendTr = '<tr><td><input type="hidden" name="goodsSuppliers[' + goodsSupplierIndex + '].supplierId" value="' + goodsSupplier_supplierId + '">' + goodsSupplier_supplierName + '</td>\n' +
+            '                                    <td><input type="hidden" name="goodsSuppliers[' + goodsSupplierIndex + '].purchasePrice" value="' + goodsSupplier_purchasePrice + '">' + goodsSupplier_purchasePrice + '</td>\n' +
+            '                                    <td><button type="button" class="button" style="margin-top: 0;background: inherit" onclick="updateSupplier(this)">修改</button>\n' +
+            '                                        <button type="button" class="button" style="margin-top: 0;background: inherit" onclick="removeSupplier(this)">移除</button></td></tr>';
+
+        $(this).parent().parent().before(appendTr)
+
+        $("#goodsSupplier_supplierId").val("");
+        $("#goodsSupplier_purchasePrice").val("");
+    });
+
+    var removeSupplier = function (button) {
+        $(button).parent().parent().remove();
+    }
+
+    var updateSupplier = function (button) {
+        var goodsSupplier_supplierId = $(button).parent().parent().find("input")[0].value;
+        var goodsSupplier_purchasePrice = $(button).parent().parent().find("input")[1].value;
+
+        $("#goodsSupplier_supplierId").val(goodsSupplier_supplierId);
+        $("#goodsSupplier_purchasePrice").val(goodsSupplier_purchasePrice);
+
+        $(button).parent().parent().remove();
+    }
+
+    /**
+     * 表单提交，检查参数
+     */
+    $("form").submit(function () {
+
+        // 图片检查
+        var img = "";
+        $.each($("input[type=file]"), function () {
+            if ($(this).attr("value")) {
+                img += $(this).attr("value") + ",";
+            }
+        });
+
+        if (img.length > 0) {
+            img = img.substring(0, img.length - 1);
+        } else {
+            alert("请上传产品展示图片！")
+            return false;
+        }
+        $("input[name=img]").val(img);
+
+
+        //  产品名称检查
+        if (!$("input[name=name]").val()) {
+            alert("请输入产品名称！");
+            return false;
+        }
+
+        // 条形码检查
+        if (!$("input[name=barcode]").val()) {
+            alert("请输入产品条形码！");
+            return false;
+        }
+
+        // 进货价，售卖价检查
+        if (!$("input[name=purchasePrice]").val()) {
+            alert("请输入参考进货价！");
+            return false;
+        }
+        if (!$("input[name=salePrice]").val()) {
+            alert("请输入参考售卖价！");
+            return false;
+        }
+
+        // 分类检查
+        if (!$("select[name='category.id'] option:selected").val()) {
+            alert("请选择产品分类！");
+            return false;
+        }
+
+        // 简介处理换行
+        var reg=new RegExp("\n","g");
+        $("textarea[name=shortDescription]").val($("textarea[name=shortDescription]").val().replace(reg,"<br>"))
+
+        return true;
+    });
 </script>

@@ -27,7 +27,6 @@ public class CategoryService {
             }
             category.setName(prefix + category.getName());
         }
-
         return page;
     }
 

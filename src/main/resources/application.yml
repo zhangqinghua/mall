@@ -34,12 +34,12 @@ spring:
 
 
 ## 文件上传相关
-file_url: http://owqrqmr2h.bkt.clouddn.com/
+file_url: http://owqrqmr2h.bkt.clouddn.com
 
 ##七牛云的key
 qiniu:
   accessKey: HpHWLi6wgCGI2Lpvd1KCk2HFcLWyY285kAICX3AK
   secretKey: BbeeH_tY306aanajadMgfUaYgaMve7xQzzC3H3Be
   bucketName: zhangqinghua
-  basePath: http://owqrqmr2h.bkt.clouddn.com/
+  basePath: http://owqrqmr2h.bkt.clouddn.com
 

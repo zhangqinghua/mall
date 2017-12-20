@@ -18,7 +18,7 @@ public class Goods {
     private Long id;
 
     /**
-     * 商品二维码
+     * 商品条形码
      */
     @Column(nullable = false, length = 20)
     private String barcode;
@@ -26,7 +26,7 @@ public class Goods {
     /**
      * 商品图片
      */
-    @Column(length = 100)
+    @Column(length = 1000)
     private String img;
 
     /**
@@ -51,12 +51,27 @@ public class Goods {
     private int salePrice;
 
     /**
+     * 简介
+     */
+    @Column(length = 500)
+    private String shortDescription;
+
+    /**
      * 商品描述，html形式
      */
     @Column(length = 20000)
     private String description;
 
+    /**
+     * 所属分类
+     */
+    @OneToOne(cascade = {CascadeType.PERSIST})
+    @JoinColumn(name = "categoryId", referencedColumnName = "id")
+    private Category category;
+
     @OneToMany(cascade = {CascadeType.PERSIST})
     @JoinColumn(name = "goodsId", referencedColumnName = "id")
     private List<GoodsSupplier> goodsSuppliers;
+
+
 }

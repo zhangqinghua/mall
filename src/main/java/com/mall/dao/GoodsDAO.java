@@ -7,5 +7,6 @@ import org.springframework.data.repository.PagingAndSortingRepository;
 
 public interface GoodsDAO extends PagingAndSortingRepository<Goods, Long> {
 
+    Goods findByBarcode(String barcode);
 
 }
