@@ -27,7 +27,7 @@ public class Goods {
      * 商品图片
      */
     @Column(length = 1000)
-    private String img;
+    private String img="";
 
     /**
      * 商品名称
@@ -38,17 +38,17 @@ public class Goods {
     /**
      * 商品精选级别可设置1~5级，1级别最高，每个店铺必备，以后依次降低；1：必选，2：精选，3：普通，4：备选，5：参考。
      */
-    private int rating = 3;
+    private Integer rating = 3;
 
     /**
      * 参考进货价，单位分
      */
-    private int purchasePrice;
+    private Integer purchasePrice;
 
     /**
      * 参考卖价，单位分
      */
-    private int salePrice;
+    private Integer salePrice;
 
     /**
      * 简介
@@ -69,7 +69,7 @@ public class Goods {
     @JoinColumn(name = "categoryId", referencedColumnName = "id")
     private Category category;
 
-    @OneToMany(cascade = {CascadeType.PERSIST})
+    @OneToMany(cascade = {CascadeType.ALL})
     @JoinColumn(name = "goodsId", referencedColumnName = "id")
     private List<GoodsSupplier> goodsSuppliers;
 

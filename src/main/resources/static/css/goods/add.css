@@ -7,6 +7,7 @@ body {
     line-height: 21px;
     margin-top: 0px;
     letter-spacing: 0.5px;
+    background: white;
 }
 
 table {
@@ -117,21 +118,21 @@ button.button {
     font-weight: 600;
 }
 
-button.submit{
+button.submit {
     width: 100%;
-    height:40px;
+    height: 40px;
 }
 
-.review1 {
-    display: inline-block;
-    width: 45%;
-    float: left;
-}
+/*.review1 {*/
+/*display: inline-block;*/
+/*width: 45%;*/
+/*float: left;*/
+/*}*/
 
-.review2 {
-    display: inline-block;
-    width: 55%;
-}
+/*.review2 {*/
+/*display: inline-block;*/
+/*width: 55%;*/
+/*}*/
 
 @media only screen and (max-width: 479px) and (min-width: 320px) {
     .review1,
@@ -143,11 +144,12 @@ button.submit{
 /*图片上传相关的*/
 .upload-pick-li {
     position: relative;
-    float: left;
+    /*float: left;*/
     display: inline-block;
     width: 60px;
     height: 60px;
-    margin: 0 10px 10px 0;
+    /*margin: 0 10px 10px 0;*/
+    margin-right: 10px;
     -moz-border-radius: 2px;
     -webkit-border-radius: 2px;
     border-radius: 2px;
@@ -155,6 +157,10 @@ button.submit{
     background-size: 60px 120px;
 }
 
+.upload-pick-li img {
+    position: absolute;
+    border: 1px solid #ddd;
+}
 
 .upload-pick-li:hover {
     background: url(/images/upload-bj.png) no-repeat 0 -60px;
@@ -162,11 +168,11 @@ button.submit{
 }
 
 /*.upload-pick-div {*/
-    /*position: absolute;*/
-    /*top: 0px;*/
-    /*left: 0px;*/
-    /*width: 50px;*/
-    /*height: 50px;*/
+/*position: absolute;*/
+/*top: 0px;*/
+/*left: 0px;*/
+/*width: 50px;*/
+/*height: 50px;*/
 /*}*/
 
 .upload-pick-input {

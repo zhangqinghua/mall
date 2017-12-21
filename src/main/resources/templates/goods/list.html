@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>产品管理</title>
+    <link rel="stylesheet" href="/css/admin/reset.css">
+    <link rel="stylesheet" href="/css/admin/content.css">
+
+    <script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+
+    <link href="http://keleyi.com/keleyi/phtml/jqtexiao/14/keleyidivpager.css" type="text/css" rel="Stylesheet"/>
+    <script type="text/javascript" src="http://keleyi.com/keleyi/phtml/jqtexiao/14/keleyidivpager.js"></script>
+
+    <style>
+
+        /*表格文字限制在一行*/
+        table{
+            table-layout: fixed;
+
+        }
+
+        td{
+            overflow: hidden;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+        }
+    </style>
+</head>
+<body marginwidth="0" marginheight="0">
+
+<div class="container">
+    <div class="public-nav">您当前的位置：<a href="">供应商管理</a>><a href="">供应商管理</a></div>
+    <div class="public-content">
+        <div class="public-content-header">
+            供应商管理
+            <div class="public-content-right fr">
+                <a href="add" style="height: 24px; width: 60px;border: 1px solid #ccc;font-size: 12px;text-align:center;padding: 4px;border-radius: 1px;font-weight: normal">添加产品</a>
+            </div>
+        </div>
+        <div class="public-content-cont two-col">
+            <table class="public-cont-table" style="width:100%">
+                <tr>
+                    <th style="width:5%">序号</th>
+                    <th style="width:20%">产品名称</th>
+                    <th style="width:10%">所属分类</th>
+                    <th style="width:10%">精选级别</th>
+                    <th style="width:5%">参考进货价</th>
+                    <th style="width:5%">参考售卖价</th>
+                    <th style="width:10%">操作</th>
+                </tr>
+
+                <tr th:if="${totalNum != 0}"
+                    th:each="obj, iterStat : ${list}">
+                    <td th:text="${iterStat.index}" />
+                    <td th:text="${obj.name}" />
+                    <td th:text="${obj.category.name}" />
+                    <td th:switch="${obj.rating}">
+                        <p th:case="1">必选</p>
+                        <p th:case="2">精选</p>
+                        <p th:case="3">普通</p>
+                        <p th:case="4">备选</p>
+                        <p th:case="5">参考</p>
+                    </td>
+                    <td th:text="${obj.purchasePrice / 100.0} + '元'" />
+                    <td th:text="${obj.salePrice / 100.0} + '元'" />
+
+                    <td>
+                        <div class="table-fun">
+                            <a th:href="@{'update/' + ${obj.id}}">编辑</a>
+                            <a th:href="@{'delete/' + ${obj.id}}">删除</a>
+                        </div>
+                    </td>
+                </tr>
+                <tr th:if="${totalNum == 0}">
+                    <td colspan="4">没有数据</td>
+                </tr>
+
+            </table>
+
+            <!-- 分页 -->
+            <div id="div_pager" style="text-align: center"></div>
+
+
+        </div>
+    </div>
+</div>
+</body>
+</html>
+
+<script th:inline="javascript">
+    //生成分页控件 根据分页的形式在这里设置
+    kkpager.init({
+        pno: [[${pageNo}]],
+        //总页码
+        total: [[${totalPage}]],
+        //总数据条数
+        totalRecords: [[${totalNum}]],
+        //链接前部
+        hrefFormer: 'list',
+        //链接尾部
+        hrefLatter: '',
+        getLink: function (n) {
+            return this.hrefFormer + this.hrefLatter + "?pageNo=" + n; //参数名跟上面相同
+        }
+    });
+    kkpager.generPageHtml();
+</script>

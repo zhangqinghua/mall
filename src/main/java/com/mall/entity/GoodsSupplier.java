@@ -2,10 +2,7 @@ package com.mall.entity;
 
 import lombok.*;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @Entity
 @Getter
@@ -19,7 +16,9 @@ public class GoodsSupplier {
     @GeneratedValue
     private Long id;
 
-    private Long supplierId;
+    @OneToOne(cascade = {CascadeType.PERSIST})
+    @JoinColumn(name = "supplierId", referencedColumnName = "id")
+    private Supplier supplier;
 
-    private int purchasePrice;
+    private Integer purchasePrice;
 }

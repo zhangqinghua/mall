@@ -1,13 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-
-    <meta http-equiv="Pragma" content="no-cache">
-    <meta http-equiv="Cache-Control" content="no-cache">
-    <meta http-equiv="Expires" content="Sat, 01 Dec 2001 00:00:00 GMT">
-
-
     <title th:text="${goods.name}"/>
     <div th:replace="common"/>
 
@@ -16,159 +9,523 @@
     <link href="https://cdn.bootcss.com/OwlCarousel2/2.2.1/assets/owl.theme.default.min.css" rel="stylesheet">
     <script src="https://cdn.bootcss.com/OwlCarousel2/2.2.1/owl.carousel.min.js"></script>
 
-    <!--字体-->
+    <!--字体样式-->
     <link rel="stylesheet" href="/css/font-awesome.min.css">
 
+    <!--样式-->
+    <link rel="stylesheet" href="/css/goods/index.css">
 </head>
 <body>
-<!-- Breadcrumbs -->
-<div class="breadcrumbs">
-    <div class="container">
-        <div class="row">
-            <div class="col-xs-12">
-                <ul>
-                    <li class="home"><a href="#" title="跳转到首页">首页</a> <span>/</span></li>
 
-                    <li th:each="obj, iterStat : ${categories}">
-                        <a href="#" th:inline="text">[[${obj.name}]]<span>/ </span></a>
-                    </li>
-                    <li><strong th:text="${goods.name}"/></li>
-                </ul>
-            </div>
-        </div>
-    </div>
-</div>
-<!-- Breadcrumbs End -->
+<div id="page">
 
 
-<section class="main-container col1-layout">
-    <!-- 图片轮播 -->
-    <div class="product-view col-lg-7 col-sm-6 col-xs-12 ">
-        <div class="product-image-box">
-            <img id="product-image-zoom" th:attr="src=${imgs[0]}">
-            <div id="owl-carousel" class="product-view owl-carousel">
-                <div class="more-views-items" th:each="obj, iterStat : ${imgs}"><img th:attr="src=${obj}"></div>
-            </div>
-        </div>
-    </div>
+    <header>
+        <div class="header-container">
+            <div class="header-top">
+                <div class="container">
+                    <div class="row">
+                        <!-- Header Language -->
+                        <div class="col-xs-12 col-sm-6">
+                            <div class="welcome-msg">Welcome to Organic!</div>
 
 
-    <div class="product-shop col-lg-7 col-sm-6 col-xs-12">
-        <!-- 商品名称 -->
-        <div class="product-name">
-            <h1 th:text="${goods.name}"/>
-        </div>
-
-        <!-- 星级区域 -->
-        <div class="rating"><i class="fa fa-star"></i> <i class="fa fa-star"></i> <i class="fa fa-star"></i> <i
-                class="fa fa-star"></i> <i class="fa fa-star-o"></i>
-            <p class="rating-links"><a href="#">4个评论</a> <span class="separator">|</span> <a href="#"><i
-                    class="fa fa-pencil"></i> 写一个评论</a></p>
-        </div>
-
-        <!--价格区域-->
-        <div class="price-block">
-            <div class="price-box">
-                <p class="special-price"><span class="price-label">Special Price</span>
-                    <span id="product-price-48" class="price" th:inline="text">
-                        ¥[[${#numbers.formatDecimal(goods.salePrice / 100.0, 0, 2)}]]
-                    </span>
-                </p>
-                <p class="old-price"><span class="price-label">Regular Price:</span>
-                    <span class="price" th:inline="text">
-                        ¥[[${#numbers.formatDecimal(goods.salePrice / 100.0 * 1.1, 0, 2)}]]
-                    </span>
-                </p>
-            </div>
-        </div>
-
-        <!--产品其它信息-->
-        <div class="info-orther">
-            <p th:inline="text">产品编号: #[[${goods.id}]]</p>
-            <p>状态: <span class="in-stock">在售</span></p>
-            <p>成色: 新</p>
-        </div>
-
-        <!--简介-->
-        <div class="short-description">
-            <h2>Quick Overview</h2>
-            <p th:utext="${goods.shortDescription}"/>
-        </div>
-
-        <!--购买选项-->
-        <div class="form-option">
-            <p class="form-option-title">购买选项：</p>
-            <div class="attributes">
-                <div class="attribute-label">品种</div>
-                <div class="attribute-list">
-                    <ul class="list-color">
-                        <li style="background:#DD4132;"><a href="#">Fiesta</a></li>
-                        <li style="background:#4F84C4;"><a href="#">Marina</a></li>
-                        <li style="background:#EE82EE;" class="active"><a href="#">Violet</a></li>
-                        <li style="background:#92B558;"><a href="#">Green</a></li>
-                        <li style="background:#191970;"><a href="#">MidnightBlue</a></li>
-                        <li style="background:#ff0000;"><a href="#">red</a></li>
-                    </ul>
-                </div>
-            </div>
-            <div class="add-to-box">
-                <div class="add-to-cart">
-                    <div class="pull-left">
-                        <div class="custom pull-left">
-                            <label>数量</label>
-                            <button onclick="var result = document.getElementById('qty'); var qty = result.value; if( !isNaN( qty ) &amp;&amp; qty > 0 ) result.value--;return false;"
-                                    class="reduced items-count" type="button"><i class="fa fa-minus">&nbsp;</i></button>
-                            <input type="text" class="input-text qty" title="Qty" value="1" maxlength="12" id="qty"
-                                   name="qty">
-                            <button onclick="var result = document.getElementById('qty'); var qty = result.value; if( !isNaN( qty )) result.value++;return false;"
-                                    class="increase items-count" type="button"><i class="fa fa-plus">&nbsp;</i></button>
                         </div>
                     </div>
-                    <button onclick="" class="button btn-cart" type="button">添加到购物车</button>
                 </div>
-                <div class="email-addto-box">
-                    <ul class="add-to-links">
-                        <li><a class="link-wishlist" href="#"><span>添加到收藏夹</span></a></li>
-                        <li>
-                            <span class="separator">|</span>
-                            <a class="link-compare" href="#"><span>对比</span></a>
+            </div>
+
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-3 col-md-4 col-sm-4 col-xs-12">
+                        <div class="jtv-top-cart-box">
+                            <!-- Top Cart -->
+                            <div class="mini-cart">
+                                <div data-toggle="dropdown" data-hover="dropdown" class="basket dropdown-toggle"><a
+                                        href="#"> <span class="cart_count">2</span><span
+                                        class="price">My Bag / $259.00</span> </a></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-6 col-md-4 col-sm-4 col-xs-12 jtv-logo-box">
+                        <!-- Header Logo -->
+                        <div class="logo"><h1><a title="eCommerce" href="index.html"><img alt="eCommerce"
+                                                                                          src="/images/logo.png"> </a>
+                        </h1></div>
+                        <!-- End Header Logo -->
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </header>
+
+    <!-- Breadcrumbs -->
+    <div class="breadcrumbs">
+        <div class="container">
+            <div class="row">
+                <div class="col-xs-12">
+                    <ul>
+                        <li class="home"><a href="#" title="跳转到首页">首页</a> <span>/</span></li>
+
+                        <li th:each="obj, iterStat : ${categories}">
+                            <a href="#" th:inline="text">[[${obj.name}]]<span>/ </span></a>
                         </li>
+                        <li><strong th:text="${goods.name}"/></li>
                     </ul>
                 </div>
             </div>
         </div>
     </div>
+    <!-- Breadcrumbs End -->
 
-    <!-- 商品详细 -->
-    <div class="product-collateral col-lg-12 col-sm-12 col-xs-12">
-        <!-- 附加信息 -->
-        <div class="add_info">
-            <!-- 产品详细标签 -->
-            <ul id="product-detail-tab" class="nav nav-tabs product-tabs">
-                <li class="active"><a href="#product_tabs_description" data-toggle="tab"> 产品描述 </a></li>
-                <li><a href="#reviews_tabs" data-toggle="tab"> 评价 </a></li>
-            </ul>
+    <!-- Main Container -->
+    <section class="main-container col1-layout">
+        <!-- 图片轮播 -->
+        <div class="product-view col-lg-7 col-sm-6 col-xs-12 ">
+            <div class="product-image-box">
+                <img id="product-image-zoom" th:attr="src=${imgs[0]}">
+                <div id="owl-carousel" class="product-view owl-carousel">
+                    <div class="more-views-items" th:each="obj, iterStat : ${imgs}"><img th:attr="src=${obj}"></div>
+                </div>
+            </div>
         </div>
 
-        <!-- 产品详细内容 -->
-        <div id="productTabContent" class="tab-content">
-            <!-- 产品详细内容 描述 -->
-            <div class="tab-pane fade in active" id="product_tabs_description">
-                <div class="std" th:utext="${goods.description}">
+
+        <div class="product-shop col-lg-7 col-sm-6 col-xs-12">
+            <!-- 商品名称 -->
+            <div class="product-name">
+                <h1 th:text="${goods.name}"/>
+            </div>
+
+            <!-- 星级区域 -->
+            <div class="rating"><i class="fa fa-star"></i> <i class="fa fa-star"></i> <i class="fa fa-star"></i> <i
+                    class="fa fa-star"></i> <i class="fa fa-star-o"></i>
+                <p class="rating-links"><a href="#">4个评论</a> <span class="separator">|</span> <a href="#"><i
+                        class="fa fa-pencil"></i> 写一个评论</a></p>
+            </div>
+
+            <!--价格区域-->
+            <div class="price-block">
+                <div class="price-box">
+                    <p class="special-price"><span class="price-label">Special Price</span>
+                        <span id="product-price-48" class="price" th:inline="text">
+                        ¥[[${#numbers.formatDecimal(goods.salePrice / 100.0, 0, 2)}]]
+                    </span>
+                    </p>
+                    <p class="old-price"><span class="price-label">Regular Price:</span>
+                        <span class="price" th:inline="text">
+                        ¥[[${#numbers.formatDecimal(goods.salePrice / 100.0 * 1.1, 0, 2)}]]
+                    </span>
+                    </p>
                 </div>
             </div>
 
-            <!-- 产品详细内容 评价 -->
-            <div class="tab-pane fade active in" id="reviews_tabs">
-                <div class="std">
-                    <p>Lorem ipsum dolor </p>
+            <!--产品其它信息-->
+            <div class="info-orther">
+                <p th:inline="text">产品编号: #[[${goods.id}]]</p>
+                <p>状态: <span class="in-stock">在售</span></p>
+                <p>成色: 新</p>
+            </div>
+
+            <!--简介-->
+            <div class="short-description">
+                <h2>Quick Overview</h2>
+                <p th:utext="${goods.shortDescription}"/>
+            </div>
+
+            <!--购买选项-->
+            <div class="form-option">
+                <p class="form-option-title">购买选项：</p>
+                <div class="attributes">
+                    <div class="attribute-label">品种</div>
+                    <div class="attribute-list">
+                        <ul class="list-color">
+                            <li style="background:#DD4132;"><a onclick="javascript:void(0)">Fiesta</a></li>
+                            <li style="background:#4F84C4;"><a onclick="javascript:void(0)">Marina</a></li>
+                            <li style="background:#EE82EE;" class="active"><a onclick="javascript:void(0)">Violet</a>
+                            </li>
+                            <li style="background:#92B558;"><a onclick="javascript:void(0)">Green</a></li>
+                            <li style="background:#191970;"><a onclick="javascript:void(0)">MidnightBlue</a></li>
+                            <li style="background:#ff0000;"><a onclick="javascript:void(0)">red</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="add-to-box">
+                    <div class="add-to-cart">
+                        <div class="pull-left">
+                            <div class="custom pull-left">
+                                <label>数量</label>
+                                <button onclick="var result = document.getElementById('qty'); var qty = result.value; if( !isNaN( qty ) &amp;&amp; qty > 0 ) result.value--;return false;"
+                                        class="reduced items-count" type="button"><i class="fa fa-minus">&nbsp;</i>
+                                </button>
+                                <input type="text" class="input-text qty" title="Qty" value="1" maxlength="12" id="qty"
+                                       name="qty">
+                                <button onclick="var result = document.getElementById('qty'); var qty = result.value; if( !isNaN( qty )) result.value++;return false;"
+                                        class="increase items-count" type="button"><i class="fa fa-plus">&nbsp;</i>
+                                </button>
+                            </div>
+                        </div>
+                        <button onclick="" class="button btn-cart" type="button">添加到购物车</button>
+                    </div>
+                    <div class="email-addto-box">
+                        <ul class="add-to-links">
+                            <li><a class="link-wishlist" href="#"><span>添加到收藏夹</span></a></li>
+                            <li>
+                                <span class="separator">|</span>
+                                <a class="link-compare" href="#"><span>对比</span></a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 商品详细 -->
+        <div class="product-collateral col-lg-12 col-sm-12 col-xs-12">
+            <!-- 附加信息 -->
+            <div class="add_info">
+                <!-- 产品详细标签 -->
+                <ul id="product-detail-tab" class="nav nav-tabs product-tabs">
+                    <li class="active"><a href="#product_tabs_description" data-toggle="tab"> 产品描述 </a></li>
+                    <li><a href="#reviews_tabs" data-toggle="tab"> 评价 </a></li>
+                </ul>
+            </div>
+
+            <!-- 产品详细内容 -->
+            <div id="productTabContent" class="tab-content">
+                <!-- 产品详细内容 描述 -->
+                <div class="tab-pane fade in active" id="product_tabs_description">
+                    <div class="std" th:utext="${goods.description}">
+                    </div>
+                </div>
+
+                <!-- 产品详细内容 评价 -->
+                <div class="tab-pane fade in " id="reviews_tabs">
+                    <div class="box-collateral box-reviews" id="customer-reviews">
+                        <div class="box-reviews1">
+                            <div class="form-add">
+                                <form action="#">
+                                    <h3>留下您的评价</h3>
+                                    <fieldset>
+                                        <h4>您会给此产品多少打分？<em class="required">*</em></h4>
+                                        <span id="input-message-box"></span>
+                                        <table id="product-review-table" class="data-table">
+                                            <colgroup>
+                                                <col>
+                                                <col width="1">
+                                                <col width="1">
+                                                <col width="1">
+                                                <col width="1">
+                                                <col width="1">
+                                            </colgroup>
+                                            <thead>
+                                            <tr class="first last">
+                                                <th>&nbsp;</th>
+                                                <th><span class="nobr">1 *</span></th>
+                                                <th><span class="nobr">2 *</span></th>
+                                                <th><span class="nobr">3 *</span></th>
+                                                <th><span class="nobr">4 *</span></th>
+                                                <th><span class="nobr">5 *</span></th>
+                                            </tr>
+                                            </thead>
+                                            <tbody>
+                                            <tr class="first odd">
+                                                <th>价格</th>
+                                                <td class="value"><input type="radio" class="radio" value="11"
+                                                                         id="Price_1"
+                                                                         name="ratings[3]"></td>
+                                                <td class="value"><input type="radio" class="radio" value="12"
+                                                                         id="Price_2"
+                                                                         name="ratings[3]"></td>
+                                                <td class="value"><input type="radio" class="radio" value="13"
+                                                                         id="Price_3"
+                                                                         name="ratings[3]"></td>
+                                                <td class="value"><input type="radio" class="radio" value="14"
+                                                                         id="Price_4"
+                                                                         name="ratings[3]"></td>
+                                                <td class="value last"><input type="radio" class="radio" value="15"
+                                                                              id="Price_5" name="ratings[3]"></td>
+                                            </tr>
+                                            <tr class="even">
+                                                <th>分量</th>
+                                                <td class="value"><input type="radio" class="radio" value="6"
+                                                                         id="Value_1"
+                                                                         name="ratings[2]"></td>
+                                                <td class="value"><input type="radio" class="radio" value="7"
+                                                                         id="Value_2"
+                                                                         name="ratings[2]"></td>
+                                                <td class="value"><input type="radio" class="radio" value="8"
+                                                                         id="Value_3"
+                                                                         name="ratings[2]"></td>
+                                                <td class="value"><input type="radio" class="radio" value="9"
+                                                                         id="Value_4"
+                                                                         name="ratings[2]"></td>
+                                                <td class="value last"><input type="radio" class="radio" value="10"
+                                                                              id="Value_5" name="ratings[2]"></td>
+                                            </tr>
+                                            <tr class="last odd">
+                                                <th>质量</th>
+                                                <td class="value"><input type="radio" class="radio" value="1"
+                                                                         id="Quality_1"
+                                                                         name="ratings[1]"></td>
+                                                <td class="value"><input type="radio" class="radio" value="2"
+                                                                         id="Quality_2"
+                                                                         name="ratings[1]"></td>
+                                                <td class="value"><input type="radio" class="radio" value="3"
+                                                                         id="Quality_3"
+                                                                         name="ratings[1]"></td>
+                                                <td class="value"><input type="radio" class="radio" value="4"
+                                                                         id="Quality_4"
+                                                                         name="ratings[1]"></td>
+                                                <td class="value last"><input type="radio" class="radio" value="5"
+                                                                              id="Quality_5" name="ratings[1]"></td>
+                                            </tr>
+                                            </tbody>
+                                        </table>
+                                        <input type="hidden" value="" class="validate-rating" name="validate_rating">
+                                        <div class="review1">
+                                            <ul class="form-list">
+                                                <li>
+                                                    <label class="required" for="nickname_field">昵称<em>*</em></label>
+                                                    <div class="input-box">
+                                                        <input type="text" class="input-text" id="nickname_field"
+                                                               name="nickname">
+                                                    </div>
+                                                </li>
+                                                <li>
+                                                    <label class="required" for="summary_field">主题<em>*</em></label>
+                                                    <div class="input-box">
+                                                        <input type="text" class="input-text" id="summary_field"
+                                                               name="title">
+                                                    </div>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                        <div class="review2">
+                                            <ul>
+                                                <li>
+                                                    <label class="required " for="review_field">评价<em>*</em></label>
+                                                    <div class="input-box">
+                                                    <textarea rows="3" cols="5" id="review_field"
+                                                              name="detail"></textarea>
+                                                    </div>
+                                                </li>
+                                            </ul>
+                                            <div class="buttons-set">
+                                                <button class="button submit" type="button"><span>提交评价</span></button>
+                                            </div>
+                                        </div>
+                                    </fieldset>
+                                </form>
+                            </div>
+                        </div>
+
+                        <!--别人的评论-->
+                        <div class="box-reviews2">
+                            <h3>Customer Reviews</h3>
+                            <div class="box visible">
+                                <ul>
+                                    <li>
+                                        <table class="ratings-table">
+                                            <colgroup>
+                                                <col width="1">
+                                                <col>
+                                            </colgroup>
+                                            <tbody>
+                                            <tr>
+                                                <th>Value</th>
+                                                <td>
+                                                    <div class="rating-box">
+                                                        <div class="rating">
+                                                            <i class="fa fa-star"></i>
+                                                            <i class="fa fa-star"></i>
+                                                            <i class="fa fa-star"></i>
+                                                            <i class="fa fa-star"></i>
+                                                            <i class="fa fa-star-o"></i>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <th>Quality</th>
+                                                <td>
+                                                    <div class="rating-box">
+                                                        <div class="rating">
+                                                            <i class="fa fa-star"></i>
+                                                            <i class="fa fa-star"></i>
+                                                            <i class="fa fa-star"></i>
+                                                            <i class="fa fa-star"></i>
+                                                            <i class="fa fa-star-o"></i>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <th>Price</th>
+                                                <td>
+                                                    <div class="rating-box">
+                                                        <div class="rating">
+                                                            <i class="fa fa-star"></i>
+                                                            <i class="fa fa-star"></i>
+                                                            <i class="fa fa-star"></i>
+                                                            <i class="fa fa-star"></i>
+                                                            <i class="fa fa-star-o"></i>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            </tbody>
+                                        </table>
+                                        <div class="review">
+                                            <h6><a href="#">Excellent</a></h6>
+                                            <small>Review by <span>Leslie Prichard </span>on 1/3/ 2017</small>
+                                            <div class="review-txt"> I have purchased shirts from Minimalism a few times
+                                                and
+                                                am never disappointed. The quality is excellent and the shipping is
+                                                amazing.
+                                                It seems like it's at your front door the minute you get off your pc. I
+                                                have
+                                                received my purchases within two days - amazing.
+                                            </div>
+                                        </div>
+
+                                    </li>
+                                </ul>
+                            </div>
+
+                            <!--查看更多留言-->
+                            <div class="actions">
+                                <a class="button view-all" id="revies-button" href="#">
+                                    <span><span>View all</span></span>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- Main Container End -->
+
+    <!-- Related Products Slider -->
+    <div class="container">
+        <div class="related-section">
+            <div class="slider-items-products">
+                <div class="related-block">
+                    <div class="slider-items-products">
+                        <div class="jtv-block-inner">
+                            <div class="block-title">
+                                <h3>Related products</h3>
+                            </div>
+                        </div>
+
+                        <div id="related-products-slider" class="product-flexslider hidden-buttons">
+                            <div id="related-products-slider-items" class="slider-items slider-width-col4 products-grid block-content owl-carousel owl-theme">
+
+
+                                <div class="item">
+                                    <div class="item-inner">
+                                        <div class="item-img">
+                                            <div class="item-img-info"><a class="product-image" title="Product Title Here" href="single_product.html"> <img alt="Product Title Here"
+                                                                                                                                                            th:attr="src=${imgs[0]}">
+                                            </a>
+                                            </div>
+                                        </div>
+                                        <div class="item-info">
+                                            <div class="info-inner">
+                                                <div class="item-title"><h6><a title="Product Title Here" href="single_product.html"> Product Title Here </a></h6></div>
+                                                <div class="item-content">
+                                                    <div class="rating"><i class="fa fa-star-o"></i> <i class="fa fa-star-o"></i> <i class="fa fa-star-o"></i> <i class="fa fa-star-o"></i> <i
+                                                            class="fa fa-star-o"></i></div>
+                                                    <div class="item-price">
+                                                        <div class="price-box"><span class="regular-price"> <span class="price">$225.00</span> </span></div>
+                                                    </div>
+                                                    <div class="action">
+                                                        <button class="button btn-cart" type="button" title="" data-original-title="Add to Cart"><span>Add to Cart</span></button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="item">
+                                    <div class="item-inner">
+                                        <div class="item-img">
+                                            <div class="item-img-info"><a class="product-image" title="Product Title Here" href="single_product.html"> <img alt="Product Title Here"
+                                                                                                                                                            th:attr="src=${imgs[0]}">
+                                            </a>
+                                            </div>
+                                        </div>
+                                        <div class="item-info">
+                                            <div class="info-inner">
+                                                <div class="item-title"><h6><a title="Product Title Here" href="single_product.html"> Product Title Here </a></h6></div>
+                                                <div class="item-content">
+                                                    <div class="rating"><i class="fa fa-star-o"></i> <i class="fa fa-star-o"></i> <i class="fa fa-star-o"></i> <i class="fa fa-star-o"></i> <i
+                                                            class="fa fa-star-o"></i></div>
+                                                    <div class="item-price">
+                                                        <div class="price-box"><span class="regular-price"> <span class="price">$225.00</span> </span></div>
+                                                    </div>
+                                                    <div class="action">
+                                                        <button class="button btn-cart" type="button" title="" data-original-title="Add to Cart"><span>Add to Cart</span></button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="item">
+                                    <div class="item-inner">
+                                        <div class="item-img">
+                                            <div class="item-img-info"><a class="product-image" title="Product Title Here" href="single_product.html"> <img alt="Product Title Here"
+                                                                                                                                                            th:attr="src=${imgs[0]}">
+                                            </a>
+                                            </div>
+                                        </div>
+                                        <div class="item-info">
+                                            <div class="info-inner">
+                                                <div class="item-title"><h6><a title="Product Title Here" href="single_product.html"> Product Title Here </a></h6></div>
+                                                <div class="item-content">
+                                                    <div class="rating"><i class="fa fa-star-o"></i> <i class="fa fa-star-o"></i> <i class="fa fa-star-o"></i> <i class="fa fa-star-o"></i> <i
+                                                            class="fa fa-star-o"></i></div>
+                                                    <div class="item-price">
+                                                        <div class="price-box"><span class="regular-price"> <span class="price">$225.00</span> </span></div>
+                                                    </div>
+                                                    <div class="action">
+                                                        <button class="button btn-cart" type="button" title="" data-original-title="Add to Cart"><span>Add to Cart</span></button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
+    <!-- Related Products Slider End -->
 
-</section>
+    <!-- Footer -->
 
+    <footer>
+        <div class="footer-top">
+            <div class="container">
+                <div class="row">
+                    <div style="text-align:center"><a href="index.html"><img src="/images/footer-logo.png" alt="logo"> </a></div>
+                    <address>
+                        <p><i class="fa fa-map-marker"></i><span>Company, 12/34 - West 21st Street </span>  </p>
+                        <p><i class="fa fa-mobile"></i><span>+ (800) 0123 456 789</span></p>
+                        <p><i class="fa fa-envelope"></i><span><a href="mailto:email@domain.com">support@themes.com</a></span></p>
+                    </address>
+                </div>
+            </div>
+        </div>
+    </footer>
+</div>
 </body>
 </html>
 
@@ -190,610 +547,12 @@
         });
     });
 
+    /**
+     * 相关产品
+     */
+    $('#related-products-slider-items').owlCarousel({
+        items: 2,
+        margin: 0,
+    })
 
 </script>
-
-<style>
-    .breadcrumbs {
-        padding: 0px;
-        margin: 15px auto 5px;
-        font-size: 12px;
-        color: #fff;
-        text-align: left;
-        z-index: 10;
-        position: relative;
-    }
-
-    .breadcrumbs ul {
-        margin: 0px;
-        padding: 0px;
-    }
-
-    .breadcrumbs ul li {
-        list-style-type: none;
-        display: inline;
-    }
-
-    .breadcrumbs a {
-        color: #666;
-        font-size: 12px;
-        font-weight: normal;
-    }
-
-    .breadcrumbs span {
-        display: inline-block;
-        margin: 0 5px 0 5px;
-        color: #ccc;
-        font-size: 11px;
-    }
-
-    .breadcrumbs li strong {
-        color: #000;
-        font-weight: normal;
-    }
-
-    .main-container {
-        min-height: 400px;
-        padding: 0px;
-        margin-top: 20px;
-        font-size: 14px;
-    }
-
-    .product-view, .product-shop {
-        margin-top: 20px;
-    }
-
-    .product-image-box img {
-        height: auto;
-        width: 100%;
-        border: 1px solid #e5e5e5;
-        padding: 1px;
-    }
-
-    .more-views-items {
-        margin: 0 10px;
-    }
-
-    .product-shop .product-name {
-        border-bottom: 1px solid #e5e5e5;
-        margin-bottom: 15px;
-    }
-
-    .product-shop .product-name h1 {
-        margin: 0 0 2px;
-        text-align: left;
-        padding-bottom: 12px;
-        text-transform: uppercase;
-        letter-spacing: 1px;
-        font-size: 22px;
-        padding-right: 0px;
-        line-height: normal;
-    }
-
-    .fa-star:before {
-        content: "\f005";
-    }
-
-    .rating {
-        color: #999;
-        font-size: 12px;
-    }
-
-    .fa {
-        display: inline-block;
-        font: normal normal normal 14px/1 FontAwesome;
-        font-size: inherit;
-        text-rendering: auto;
-        -webkit-font-smoothing: antialiased;
-        -moz-osx-font-smoothing: grayscale;
-    }
-
-    .rating .fa-star {
-        color: #FC0;
-    }
-
-    .product-shop .rating-links {
-        display: inline-block;
-        margin-left: 5px;
-        padding: 0px;
-        margin-bottom: 0px;
-    }
-
-    .product-shop .rating-links a {
-        color: #999;
-        font-size: 13px;
-    }
-
-    /*价格区域*/
-    .product-shop .price-block {
-        position: relative;
-    }
-
-    .product-shop .price-box {
-        padding: 10px 0px;
-        display: block;
-        margin: 0px;
-        position: relative;
-    }
-
-    .product-shop .special-price {
-        display: inline-block;
-        margin: 0;
-        padding: 0;
-    }
-
-    .special-price .price-label {
-        font-size: 13px;
-        white-space: nowrap;
-        color: #666;
-        display: none;
-        font-weight: 400;
-    }
-
-    .price {
-        font-size: 14px;
-        color: #333;
-        white-space: nowrap !important;
-    }
-
-    .product-shop .price {
-        font-size: 24px;
-        color: #000;
-        font-weight: 600;
-    }
-
-    .product-shop .price-box .old-price {
-        margin: 0px;
-        margin-top: 0;
-        display: inline-block;
-    }
-
-    .old-price .price-label {
-        color: #777777;
-        display: none;
-        white-space: nowrap;
-    }
-
-    .old-price .price {
-        color: #999 !important;
-        font-size: 13px;
-        font-weight: normal;
-        text-decoration: line-through;
-        margin-left: 6px;
-    }
-
-    .product-shop .old-price .price {
-        font-size: 20px;
-        font-weight: normal;
-        vertical-align: 4px;
-    }
-
-    /*产品其它信息*/
-    .info-orther p {
-        letter-spacing: 1px;
-    }
-
-    /*产品简介*/
-    .product-shop .short-description {
-        font-size: 13px;
-        padding: 15px 0px 15px 0px;
-        border-top: 1px solid #eaeaea;
-        border-bottom: 1px solid #eaeaea;
-        margin-bottom: 12px;
-    }
-
-    .product-shop .short-description {
-        padding: 12px 0px;
-    }
-
-    .product-shop .short-description h2 {
-        font-size: 14px;
-        color: #333;
-        margin: 0px;
-        margin-bottom: 8px;
-        letter-spacing: 0.5px;
-        font-weight: 600;
-        display: none;
-    }
-
-    .product-shop .short-description p {
-        font-size: 13px;
-        margin: 0px;
-        color: #222;
-        letter-spacing: 0.5px;
-        line-height: 1.5;
-    }
-
-    /*产品种类*/
-    .product-shop .form-option .form-option-title {
-        font-weight: bold;
-        line-height: 20px;
-    }
-
-    .product-shop .form-option .attributes .attribute-label {
-        /*width: 50px;*/
-        margin-right: 15px;
-        float: left;
-    }
-
-    .product-shop .form-option .list-color {
-        overflow: hidden;
-        padding-top: 5px;
-        padding: 0px;
-    }
-
-    .product-shop .form-option .list-color li {
-        width: 20px;
-        height: 20px;
-        border: 1px solid #eaeaea;
-        float: left;
-        margin-right: 10px;
-        list-style: none;
-    }
-
-    .product-shop .form-option .list-color li a {
-        width: 20px;
-        height: 20px;
-        float: left;
-        text-indent: -9999px;
-    }
-
-    .product-shop .form-option .list-color li:hover, .product-shop .form-option .list-color li.active {
-        border: 1px solid #8ac42f;
-    }
-
-    .product-shop .add-to-box {
-        padding: 12px 0px 8px;
-        overflow: hidden;
-        text-align: left;
-        margin: 1px 0 0 0;
-        border-bottom: 1px dotted #ddd;
-    }
-
-    /*购买数量*/
-    .add-to-box .add-to-cart, .product-options-bottom .add-to-cart {
-        margin: 0;
-    }
-
-    .add-to-cart .pull-left {
-        width: 100%;
-    }
-
-    .product-shop .add-to-box .add-to-cart label {
-        display: inline-block;
-        float: left;
-        margin-top: 8px;
-        text-align: left;
-        text-transform: capitalize;
-        /*font-size: 15px;*/
-        font-weight: normal;
-        margin-right: 15px;
-    }
-
-    .custom button.items-count {
-        transition: color 300ms ease-in-out 0s, background-color 300ms ease-in-out 0s, background-position 300ms ease-in-out 0s;
-        font-size: 12px;
-        line-height: 0px;
-        padding: 13px 12px 9px 12px;
-        height: 40px;
-        width: 40px;
-        background-color: #fff;
-        border: 1px #ececec solid;
-        color: #999;
-    }
-
-    input.input-text, select, textarea {
-        background-color: #f0f0f0;
-        border: 1px #f1f1f1 solid;
-        padding: 8px 10px;
-        outline: none;
-        color: #aaa;
-    }
-
-    .add-to-cart .qty, .qty-holder .qty {
-        background-color: #FFFFFF;
-        border: 1px solid #E0E0E0;
-        border-radius: 0px;
-        font-size: 15px;
-    }
-
-    .add-to-cart .qty {
-        margin-bottom: 10px;
-        height: 40px;
-        text-align: center;
-        width: 60px;
-        vertical-align: top;
-    }
-
-    button.button {
-        background: none repeat scroll 0 0 #fff;
-        color: #666;
-        display: inline-block;
-        font-size: 10px;
-        letter-spacing: 0.5px;
-        line-height: normal;
-        padding: 6px 12px;
-        text-transform: uppercase;
-        border: 1px #d1d1d1 solid;
-        font-weight: 600;
-    }
-
-    /*添加到购物车*/
-    .product-shop .add-to-box .btn-cart {
-        background: #8ac42f;
-        color: #fff;
-    }
-
-    .product-shop .add-to-box .btn-cart {
-        margin-left: 0px;
-        margin-top: 0px;
-        font-size: 16px;
-        text-shadow: none;
-        padding: 7px 20px;
-        float: left;
-        transition: color 300ms ease-in-out 0s, background-color 300ms ease-in-out 0s, background-position 300ms ease-in-out 0s;
-        border: none;
-        height: 40px;
-        text-transform: uppercase;
-    }
-
-    .email-addto-box {
-        display: inline-block;
-        margin-left: 0px;
-    }
-
-    /*分享/对比 */
-    .product-shop ul.add-to-links {
-        margin: 0;
-        padding: 0;
-        margin-top: 0px;
-        display: inline-block;
-    }
-
-    .product-shop .add-to-links li {
-        display: inline-block;
-        padding: 0px 0px 0px 6px;
-        list-style-type: none;
-        float: left;
-    }
-
-    .link-wishlist, .link-compare {
-        color: #666;
-        text-shadow: none;
-        border: none;
-        box-shadow: none;
-    }
-
-    .product-shop ul.add-to-links a {
-        padding: 0;
-        margin: 0;
-        display: block;
-    }
-
-    .product-shop .add-to-links .link-wishlist {
-        color: #999;
-        line-height: normal;
-        font-weight: normal;
-        vertical-align: top;
-        display: block;
-        height: 40px;
-        width: 45px;
-        border: 1px #ececec solid;
-        color: #999;
-        line-height: 36px;
-        vertical-align: top;
-        text-align: center;
-        transition: color 300ms ease-in-out 0s, background-color 300ms ease-in-out 0s, background-position 300ms ease-in-out 0s;
-    }
-
-    .product-shop .add-to-links .link-wishlist:before {
-        content: "\f004";
-        font-family: FontAwesome;
-        font-size: 14px;
-    }
-
-    .product-shop .add-to-links span {
-        font-size: 12px;
-        margin-left: 5px;
-        font-weight: normal;
-        text-transform: none;
-        display: none;
-    }
-
-    .product-shop .add-to-links span {
-        display: none;
-    }
-
-    .product-shop .add-to-links li {
-        display: inline-block;
-        padding: 0px 0px 0px 6px;
-        list-style-type: none;
-        float: left;
-    }
-
-    .product-shop .add-to-links span {
-        font-size: 12px;
-        margin-left: 5px;
-        font-weight: normal;
-        text-transform: none;
-        display: none;
-    }
-
-    .product-shop .add-to-links li .separator {
-        display: none;
-    }
-
-    .link-wishlist, .link-compare {
-        color: #666;
-        text-shadow: none;
-        border: none;
-        box-shadow: none;
-    }
-
-    .product-shop ul.add-to-links a {
-        padding: 0;
-        margin: 0;
-        display: block;
-    }
-
-    .product-shop .add-to-links .link-compare {
-        color: #999;
-        line-height: normal;
-        font-weight: normal;
-        vertical-align: top;
-        display: block;
-        height: 40px;
-        width: 45px;
-        border: 1px #ececec solid;
-        color: #999;
-        line-height: 36px;
-        vertical-align: top;
-        text-align: center;
-        transition: color 300ms ease-in-out 0s, background-color 300ms ease-in-out 0s, background-position 300ms ease-in-out 0s;
-    }
-
-    .product-shop .add-to-links .link-compare:before {
-        content: "\f012";
-        font-family: FontAwesome;
-        font-size: 14px;
-    }
-
-    .add-to-links span {
-        font-size: 12px;
-        margin-left: 8px;
-        text-transform: uppercase;
-    }
-
-    .product-shop .add-to-links span {
-        font-size: 12px;
-        margin-left: 5px;
-        font-weight: normal;
-        text-transform: none;
-        display: none;
-    }
-
-    /*产品详细标签 ul*/
-    .nav {
-        margin: 0px auto 0;
-    }
-
-    .product-tabs {
-        margin: 5px 0px 0;
-        padding: 8px 0px 0px;
-        text-align: left;
-        width: 100%;
-    }
-
-    .product-tabs {
-        height: auto;
-    }
-
-    /*产品详细标签 ul li*/
-    .nav-tabs > li {
-        width: 100%;
-        text-align: center;
-        margin-bottom: 0px;
-    }
-
-    .nav-tabs.product-tabs > li {
-        display: inline-block;
-        float: none;
-        margin-right: 5px;
-    }
-
-    .nav-tabs.product-tabs > li {
-        margin-right: 0px;
-        margin-bottom: -1px;
-    }
-
-    /*产品详细标签 ul li a 激活状态*/
-    .product-tabs li.active a {
-        background: none repeat scroll 0 0 #fff;
-        color: #333;
-        padding: 12px;
-        border: 2px solid #333;
-    }
-
-    .nav-tabs.product-tabs > li > a {
-        margin-right: 0px;
-        line-height: 1.42857143;
-        border-radius: 0px;
-        background: none repeat scroll 0 0 #fff;
-        padding: 12px 15px 12px;
-        border: 1px #e5e5e5 solid;
-    }
-
-    .nav-tabs > li.active > a, .nav-tabs > li.active > a:hover, .nav-tabs > li.active > a:focus {
-        border: 1px #e5e5e5 solid;
-        border-bottom: 1px solid #fff;
-        color: #8ac42f;
-    }
-
-    /*产品详细标签 ul li a 未激活状态*/
-    .product-tabs li a {
-        color: #666;
-        margin-right: 0px;
-        text-decoration: none;
-        font-size: 14px;
-        font-weight: 600;
-        transition: color 300ms ease-in-out 0s, background-color 300ms ease-in-out 0s, background-position 300ms ease-in-out 0s;
-        padding: 0px;
-        letter-spacing: 1px;
-        border: none;
-    }
-
-    .nav-tabs.product-tabs > li > a {
-        margin-right: 0px;
-        line-height: 1.42857143;
-        border-radius: 0px;
-        background: none repeat scroll 0 0 #fff;
-        padding: 12px 15px 12px;
-        border: 1px #e5e5e5 solid;
-    }
-
-    /*产品详细内容 #productTabContent*/
-    .tab-content {
-        background-color: inherit;
-        padding: 5px 0px 20px 0px;
-        overflow: hidden;
-        font-size: 13px;
-        line-height: 21px;
-        margin-top: 0px;
-        letter-spacing: 0.5px;
-    }
-
-    .tab-content {
-        display: inline-block;
-    }
-
-    #productTabContent {
-        padding: 10px 25px;
-        background: none repeat scroll 0 0 #fff;
-        border: 1px solid #e5e5e5;
-        border-top: none;
-    }
-
-    #productTabContent {
-        padding: 10px 15px;
-    }
-
-    /*产品详细内容 #productTabContent tab-content*/
-    .tab-content {
-        background-color: inherit;
-        padding: 5px 0px 20px 0px;
-        overflow: hidden;
-        font-size: 13px;
-        line-height: 21px;
-        margin-top: 0px;
-        letter-spacing: 0.5px;
-    }
-
-    .tab-content > .active {
-        margin-top: 10px;
-    }
-
-    .tab-content > .active {
-        margin-top: 5px;
-    }
-
-</style>

@@ -9,11 +9,15 @@ import com.mall.service.SupplierService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -30,12 +34,16 @@ public class GoodsController {
     @Autowired
     private Environment environment;
 
+
     @RequestMapping(value = "/add", method = RequestMethod.GET)
-    public String add(Model model) {
+    public String add(Model model, String barcode) {
         Page<Category> categoriePage = categoryService.findAll();
         Page<Supplier> suppliersPage = supplierService.findAll();
 
 
+        Goods goods = new Goods();
+        goods.setBarcode(barcode);
+        model.addAttribute("goods", goods);
         model.addAttribute("categories", categoriePage.getContent());
         model.addAttribute("suppliers", suppliersPage.getContent());
         return "goods/add";
@@ -43,9 +51,25 @@ public class GoodsController {
 
     @RequestMapping(value = "/add", method = RequestMethod.POST)
     public String add(Goods goods) {
-        System.out.println(goods.toString());
         goodsService.add(goods);
         return "redirect:index?id=" + goods.getId();
+
+    }
+
+    @RequestMapping(value = "/update/{id}", method = RequestMethod.GET)
+    public String update(Model model, @PathVariable Long id) {
+
+        Goods goods = goodsService.findOne(id);
+
+        Page<Category> categoriePage = categoryService.findAll();
+        Page<Supplier> suppliersPage = supplierService.findAll();
+
+
+        model.addAttribute("title", "编辑产品");
+        model.addAttribute("goods", goods);
+        model.addAttribute("categories", categoriePage.getContent());
+        model.addAttribute("suppliers", suppliersPage.getContent());
+        return "goods/add";
     }
 
 
@@ -68,7 +92,7 @@ public class GoodsController {
         }
 
         List<String> imgs = new ArrayList<>();
-        for (String img :  goods.getImg().split(",")) {
+        for (String img : goods.getImg().split(",")) {
             imgs.add(environment.getProperty("file_url") + img);
         }
 
@@ -84,8 +108,17 @@ public class GoodsController {
      *
      * @return
      */
-    public String list() {
-        return null;
+    @RequestMapping("/list")
+    public String list(Model model, @RequestParam(defaultValue = "1") Integer pageNo) {
+        Page<Goods> page = goodsService.find(new PageRequest(pageNo - 1, 10));
+
+
+        model.addAttribute("list", page.getContent());
+        model.addAttribute("totalNum", page.getTotalElements());
+        model.addAttribute("totalPage", page.getTotalPages());
+        model.addAttribute("pageNo", page.getNumber() + 1);
+
+        return "goods/list";
     }
 
     /**
@@ -93,7 +126,9 @@ public class GoodsController {
      *
      * @return
      */
-    public String delete() {
-        return null;
+    @RequestMapping("/delete/{id}")
+    public String delete(@PathVariable Long id) {
+        goodsService.delete(id);
+        return "redirect:../list";
     }
 }

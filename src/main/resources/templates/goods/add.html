@@ -2,7 +2,7 @@
 <html>
 
 <head>
-    <title>input</title>
+    <title th:text="${title==null ? '创建新产品' : title}"/>
     <div th:replace="common"/>
     <!-- 需要先加载common里面的样式才能加载add.css -->
     <link rel="stylesheet" href="/css/goods/add.css">
@@ -15,55 +15,51 @@
 <body>
 <div class="container">
     <form method="post" action="/goods/add">
+
+
+        <input type="hidden" name="id" th:value="${goods.id}">
+
         <!-- 表单标题 -->
-        <h3>创建新产品</h3>
+        <h3 th:text="${title==null ? '创建新产品' : title}"></h3>
         <fieldset>
-            <div class="review0">
+            <div class="review0" id="upload-pick-div">
                 <label>展示图片（200 * 200）<em class="required">*</em></label>
                 <ul class="upload-pick-ul">
+                    <li class="upload-pick-li" th:if="${goods.img != null}" th:each="img: ${#strings.arraySplit(goods.img, ',')}">
+                        <img th:attr="src=${img}" style="width: 100%; height: 100%;">
+                        <input type="file" class="upload-pick-input" accept="image/*">
+                    </li>
+
                     <li class="upload-pick-li">
                         <input type="file" class="upload-pick-input" accept="image/*">
                     </li>
-                    <li class="upload-pick-li">
-                        <input type="file" class="upload-pick-input" accept="image/*">
-                    </li>
-                    <li class="upload-pick-li">
-                        <input type="file" class="upload-pick-input" accept="image/*">
-                    </li>
-                    <li class="upload-pick-li">
-                        <input type="file" class="upload-pick-input" accept="image/*">
-                    </li>
-                    <li class="upload-pick-li">
-                        <input type="file" class="upload-pick-input" accept="image/*">
-                    </li>
-                    <input type="hidden" name="img">
+                    <input type="hidden" name="img" th:value="${goods.img}">
                 </ul>
             </div>
-
             <div class="review1">
                 <ul>
                     <li>
                         <label>产品名称<em class="required">*</em></label>
                         <div>
-                            <input class="input-text" type="text" name="name">
+                            <input class="input-text" type="text" name="name" th:value="${goods.name}" placeholder="请输入产品名称">
                         </div>
                     </li>
                     <li>
-                        <label class="required">条形码<em>*</em></label>
+                        <label class="required">条形码编号<em>*</em></label>
                         <div class="input-box">
-                            <input type="text" class="input-text" name="barcode">
+                            <input type="text" class="input-text" name="barcode" th:value="${goods.barcode}" placeholder="请输入条形码编号">
                         </div>
                     </li>
                     <li>
-                        <label class="required">参考进货价（分）<em>*</em></label>
+                        <label class="required">进货价（分）<em>*</em></label>
                         <div class="input-box">
-                            <input type="text" class="input-text" name="purchasePrice">
+                            <input type="text" class="input-text" name="purchasePrice" th:value="${goods.purchasePrice}" placeholder="请输入进货价（分）">
                         </div>
                     </li>
                     <li>
-                        <label class="required">参考售卖价（分）<em>*</em></label>
+                        <label class="required">售卖价（分）<em>*</em></label>
                         <div class="input-box">
-                            <input type="text" class="input-text" name="salePrice">
+                            <input type="text" class="input-text" name="salePrice" th:value="${goods.salePrice}" placeholder="请输入售卖价（分）">
                         </div>
                     </li>
                     <li>
@@ -73,7 +69,8 @@
                                 <option value="">无</option>
                                 <option th:each="obj, iterStat : ${categories}"
                                         th:value="${obj.id}"
-                                        th:inline="text">
+                                        th:inline="text"
+                                        th:selected="${goods.category != null && obj.id==goods.category.id}">
                                     [[${obj.name}]]
                                 </option>
                             </select>
@@ -99,19 +96,19 @@
                                 <tbody>
                                 <tr class="first odd">
                                     <td class="value">
-                                        <input type="radio" class="radio" value="2" name="rating">
+                                        <input type="radio" class="radio" value="1" name="rating" th:checked="${goods.rating==1}">
                                     </td>
                                     <td class="value">
-                                        <input type="radio" class="radio" value="2" name="rating">
+                                        <input type="radio" class="radio" value="2" name="rating" th:checked="${goods.rating==2}">
                                     </td>
                                     <td class="value">
-                                        <input type="radio" class="radio" value="3" name="rating" checked="checked">
+                                        <input type="radio" class="radio" value="3" name="rating" th:checked="${goods.rating==3 || goods.rating == null}">
                                     </td>
                                     <td class="value">
-                                        <input type="radio" class="radio" value="4" name="rating">
+                                        <input type="radio" class="radio" value="4" name="rating" th:checked="${goods.rating==4}">
                                     </td>
                                     <td class="value last">
-                                        <input type="radio" class="radio" value="5" name="rating">
+                                        <input type="radio" class="radio" value="5" name="rating" th:checked="${goods.rating==5}">
                                     </td>
                                 </tr>
                                 </tbody>
@@ -131,8 +128,23 @@
                                 </tr>
                                 </thead>
                                 <tbody id="goodsSupplier_body">
+                                <tr th:each="goodsSupplier, iterStat: ${goods.goodsSuppliers}" th:inline="text">
+                                    <td>
+                                        <input type="hidden" th:attr="name='goodsSuppliers['+${iterStat.index}+'].id'" th:value="${goodsSupplier.id}">
+                                        <input type="hidden" th:attr="name='goodsSuppliers['+${iterStat.index}+'].supplier.id'" th:value="${goodsSupplier.supplier.id}">
+                                        [[${goodsSupplier.supplier.name}]]
+                                    </td>
+                                    <td>
+                                        <input type="hidden" th:attr="name='goodsSuppliers['+${iterStat.index}+'].purchasePrice'" th:value="${goodsSupplier.purchasePrice}">
+                                        [[${goodsSupplier.purchasePrice}]]
+                                    </td>
+                                    <td><button type="button" class="button" style="margin-top: 0;background: inherit" onclick="updateSupplier(this)">修改</button>
+                                       <button type="button" class="button" style="margin-top: 0;background: inherit" onclick="removeSupplier(this)">移除</button>
+                                    </td>
+                                </tr>
                                 <tr>
                                     <td>
+                                        <input type="hidden" id="goodsSupplier_id">
                                         <select style="padding:0; margin:0;border: none;text-align: center;background: inherit"
                                                 id="goodsSupplier_supplierId">
                                             <option value="">请选择供应商</option>
@@ -165,13 +177,13 @@
                     <li>
                         <label class="required ">摘要<em>*</em></label>
                         <div class="input-box">
-                            <textarea rows="3" cols="5" name="shortDescription"></textarea>
+                            <textarea rows="3" cols="5" name="shortDescription" placeholder="请输入摘要" th:text="${goods.shortDescription}"></textarea>
                         </div>
                     </li>
                     <li>
                         <label class="required ">图文详情<em>*</em></label>
                         <div class="input-box">
-                            <textarea rows="3" cols="5" id="description" name="description" style="width: 100%;height: 500px;"></textarea>
+                            <textarea rows="3" cols="5" id="description" name="description" style="width: 100%;height: 500px;" placeholder="请输入图文详情" th:text="${goods.description}"></textarea>
 
                         </div>
                     </li>
@@ -199,6 +211,9 @@
         if (!this.files[0]) {
             return;
         }
+
+        var parent = $(this).parent();
+
         var input = this;
         /* 压缩图片 */
         lrz(this.files[0], {width: 1000}).then(function (rst) {
@@ -210,8 +225,14 @@
                 dataType: "json",
                 success: function (data) {
                     if (data.status == true) {
-                        $(input).parent().append("<img src='" + data.data + "' style='width: 100%; height: 100%;'>")
-                        $(input).attr("value", data.data);
+                        if ($(input).parent().find("img").length == 0) {
+                            var before = $(input).parent().clone(true);
+                            before.find("input").before("<img src='" + data.data + "' style='width: 100%; height: 100%;'>")
+                            $(input).parent().before(before);
+                        } else {
+                            $(input).parent().find("img").attr("src", data.data);
+                        }
+
                     }
                 },
                 error: function (request) {
@@ -234,6 +255,7 @@
 
 
     $("#addSupplier").click(function () {
+        var goodsSupplier_id = $("#goodsSupplier_id").val();
         var goodsSupplier_supplierId = $("#goodsSupplier_supplierId  option:selected").val();
         var goodsSupplier_supplierName = $("#goodsSupplier_supplierId  option:selected").text();
         var goodsSupplier_purchasePrice = $("#goodsSupplier_purchasePrice").val();
@@ -243,14 +265,13 @@
             return;
         }
 
-        console.log(typeof(goodsSupplierIndex))
         if (typeof(goodsSupplierIndex) == 'undefined') {
             goodsSupplierIndex = 0;
-            console.log(typeof(goodsSupplierIndex))
         }
         goodsSupplierIndex++;
 
-        var appendTr = '<tr><td><input type="hidden" name="goodsSuppliers[' + goodsSupplierIndex + '].supplierId" value="' + goodsSupplier_supplierId + '">' + goodsSupplier_supplierName + '</td>\n' +
+        var appendTr = '<tr><td><input type="hidden" name="goodsSuppliers[' + goodsSupplierIndex + '].id" value="' + goodsSupplier_id + '">' +
+            '<input type="hidden" name="goodsSuppliers[' + goodsSupplierIndex + '].supplier.id" value="' + goodsSupplier_supplierId + '">' + goodsSupplier_supplierName + '</td>\n' +
             '                                    <td><input type="hidden" name="goodsSuppliers[' + goodsSupplierIndex + '].purchasePrice" value="' + goodsSupplier_purchasePrice + '">' + goodsSupplier_purchasePrice + '</td>\n' +
             '                                    <td><button type="button" class="button" style="margin-top: 0;background: inherit" onclick="updateSupplier(this)">修改</button>\n' +
             '                                        <button type="button" class="button" style="margin-top: 0;background: inherit" onclick="removeSupplier(this)">移除</button></td></tr>';
@@ -266,9 +287,11 @@
     }
 
     var updateSupplier = function (button) {
-        var goodsSupplier_supplierId = $(button).parent().parent().find("input")[0].value;
-        var goodsSupplier_purchasePrice = $(button).parent().parent().find("input")[1].value;
+        var goodsSupplier_id = $(button).parent().parent().find("input")[0].value;
+        var goodsSupplier_supplierId = $(button).parent().parent().find("input")[1].value;
+        var goodsSupplier_purchasePrice = $(button).parent().parent().find("input")[2].value;
 
+        $("#goodsSupplier_id").val(goodsSupplier_id);
         $("#goodsSupplier_supplierId").val(goodsSupplier_supplierId);
         $("#goodsSupplier_purchasePrice").val(goodsSupplier_purchasePrice);
 
@@ -282,9 +305,9 @@
 
         // 图片检查
         var img = "";
-        $.each($("input[type=file]"), function () {
-            if ($(this).attr("value")) {
-                img += $(this).attr("value") + ",";
+        $.each($("#upload-pick-div img"), function () {
+            if ($(this).attr("src")) {
+                img += $(this).attr("src") + ",";
             }
         });
 
@@ -295,7 +318,6 @@
             return false;
         }
         $("input[name=img]").val(img);
-
 
         //  产品名称检查
         if (!$("input[name=name]").val()) {
@@ -326,8 +348,8 @@
         }
 
         // 简介处理换行
-        var reg=new RegExp("\n","g");
-        $("textarea[name=shortDescription]").val($("textarea[name=shortDescription]").val().replace(reg,"<br>"))
+        var reg = new RegExp("\n", "g");
+        $("textarea[name=shortDescription]").val($("textarea[name=shortDescription]").val().replace(reg, "<br>"))
 
         return true;
     });

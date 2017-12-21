@@ -2,11 +2,18 @@ package com.mall.service;
 
 import com.mall.dao.CategoryDAO;
 import com.mall.dao.GoodsDAO;
+import com.mall.dao.SupplierDAO;
 import com.mall.entity.Goods;
+import com.mall.entity.GoodsSupplier;
+import com.mall.entity.Supplier;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Component;
+
+import java.util.Iterator;
 
 @Component
 public class GoodsService {
@@ -15,11 +22,33 @@ public class GoodsService {
     private GoodsDAO goodsDAO;
     @Autowired
     private CategoryDAO categoryDAO;
+    @Autowired
+    private SupplierDAO supplierDAO;
 
+
+    public Page<Goods> findAll() {
+        return find(new PageRequest(0, 1000, Sort.Direction.ASC, "id"));
+    }
+
+    public Page<Goods> find(Pageable pageable) {
+        return goodsDAO.findAll(pageable);
+    }
 
     public boolean add(Goods goods) {
         if (goods.getCategory() != null) {
             goods.setCategory(categoryDAO.findOne(goods.getCategory().getId()));
+        }
+
+        if (goods.getGoodsSuppliers() != null) {
+            for (int i = 0; i < goods.getGoodsSuppliers().size(); i++) {
+                GoodsSupplier goodsSupplier = goods.getGoodsSuppliers().get(i);
+                if (goodsSupplier == null || goodsSupplier.getSupplier() == null) {
+                    goods.getGoodsSuppliers().remove(goodsSupplier);
+                    i--;
+                } else {
+                    goodsSupplier.setSupplier(supplierDAO.findOne(goodsSupplier.getSupplier().getId()));
+                }
+            }
         }
 
         goodsDAO.save(goods);
@@ -34,4 +63,9 @@ public class GoodsService {
         return goodsDAO.findByBarcode(barcode);
     }
 
+
+    public boolean delete(Long id) {
+        goodsDAO.delete(id);
+        return true;
+    }
 }
