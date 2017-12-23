@@ -3,6 +3,7 @@ package com.mall.controller;
 import com.mall.utils.JSON;
 import com.mall.utils.Utils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Controller;
@@ -19,8 +20,16 @@ import java.security.MessageDigest;
 public class WeixinController {
 
     private RestTemplate restTemplate = new RestTemplate();
-    @Autowired
-    private Environment environment;
+
+
+    /**
+     * 账号相关
+     */
+    @Value("${weixin.appid}")
+    private String appid;
+    @Value("${weixin.secret}")
+    private String secret;
+
 
     /**
      * 凭证
@@ -30,6 +39,8 @@ public class WeixinController {
     private String accessToken;
     private long accessTokenExpiresTime;
     private int accessTokenExpiresIn;
+    @Value("${weixin.access_token_url}")
+    private String accessTokenUrl;
 
     /**
      * 临时票据
@@ -39,6 +50,8 @@ public class WeixinController {
     private String ticket;
     private long ticketExpiresTime;
     private int ticketExpiresIn;
+    @Value("${weixin.jsapi_ticket_url}")
+    private String ticketUrl;
 
 
     /**
@@ -47,23 +60,27 @@ public class WeixinController {
      * 生成签名的时间戳
      */
     private String signature;
-    private String noncestr = "helloWorld";
+    @Value("${weixin.noncestr}")
+    private String noncestr;
     private long signatureTimestamp;
 
+    /**
+     * 微信扫一扫功能
+     * <p>
+     * 扫描商品条形码
+     *
+     * @param model
+     * @return
+     */
     @RequestMapping("/scan")
-    private String scan(Model model, HttpServletRequest request) {
+    public String scan(Model model) {
         model.addAttribute("signature", getSignature("http://k.teamtor.com/weixin/scan"));
-        model.addAttribute("appId", environment.getProperty("weixin.appid"));
+        model.addAttribute("appId", appid);
         model.addAttribute("signatureTimestamp", signatureTimestamp);
         model.addAttribute("nonceStr", noncestr);
         return "weixin/scan";
     }
 
-    @RequestMapping("/test")
-    @ResponseBody
-    public String test() {
-        return getAccessToken() + "<br>" + getJsapiTicket();
-    }
 
     private String getSignature(String url) {
         signatureTimestamp = System.currentTimeMillis();
@@ -76,7 +93,7 @@ public class WeixinController {
     private String getAccessToken() {
         // 如果凭证不存在或者过时，则重新获取
         if (Utils.isEmpty(accessToken) || System.currentTimeMillis() - accessTokenExpiresTime > accessTokenExpiresIn) {
-            String access_token_url = environment.getProperty("weixin.access_token_url");
+            String access_token_url = accessTokenUrl;
             JSON result = new JSON(restTemplate.getForObject(access_token_url, String.class));
             accessToken = result.getStr("access_token");
             accessTokenExpiresIn = Integer.parseInt(result.getStr("expires_in")) * 1000;
@@ -88,19 +105,11 @@ public class WeixinController {
     private String getJsapiTicket() {
         // 如果凭证不存在或者过时，则重新获取
         if (Utils.isEmpty(ticket) || System.currentTimeMillis() - ticketExpiresTime > ticketExpiresIn) {
-            String jsapi_ticket_url = environment.getProperty("weixin.jsapi_ticket_url");
-            JSON result = new JSON(restTemplate.getForObject(jsapi_ticket_url.replace("ACCESS_TOKEN", getAccessToken()), String.class));
+            JSON result = new JSON(restTemplate.getForObject(ticketUrl.replace("ACCESS_TOKEN", getAccessToken()), String.class));
             ticket = result.getStr("ticket");
             ticketExpiresIn = Integer.parseInt(result.getStr("expires_in")) * 1000;
             ticketExpiresTime = System.currentTimeMillis();
         }
         return ticket;
     }
-
-    public static void main(String[] args) throws Exception {
-
-        String sha1 = Utils.getSha1("jsapi_ticket=sM4AOVdWfPE4DxkXGEs8VMCPGGVi4C3VM0P37wVUCFvkVAy_90u5h9nbSlYy3-Sl-HhTdfl2fzFy1AOcHKP7qg&noncestr=Wm3WZYTPz0wzccnW&timestamp=1414587457&url=http://mp.weixin.qq.com");
-        System.out.println(sha1);
-    }
-
 }
