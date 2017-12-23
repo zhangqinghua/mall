@@ -1,0 +1,37 @@
+2017-12-22 15:36:15,820  INFO Version:30 - HV000001: Hibernate Validator 5.3.6.Final
+2017-12-22 15:36:19,018 ERROR DruidDataSource:570 - testOnBorrow is true, validationQuery not set
+2017-12-22 15:36:19,019  WARN DruidDataSource:590 - Your dbType is mysql, recommend set testWhileIdle is true
+2017-12-22 15:36:19,036  INFO DruidDataSource:456 - {dataSource-1} inited
+2017-12-22 15:36:19,423  INFO LogHelper:31 - HHH000204: Processing PersistenceUnitInfo [
+	name: default
+	...]
+2017-12-22 15:36:19,548  INFO Version:37 - HHH000412: Hibernate Core {5.0.12.Final}
+2017-12-22 15:36:19,549  INFO Environment:213 - HHH000206: hibernate.properties not found
+2017-12-22 15:36:19,551  INFO Environment:317 - HHH000021: Bytecode provider name : javassist
+2017-12-22 15:36:19,625  INFO Version:66 - HCANN000001: Hibernate Commons Annotations {5.0.1.Final}
+2017-12-22 15:36:19,968  INFO Dialect:156 - HHH000400: Using dialect: org.hibernate.dialect.MySQL5Dialect
+2017-12-22 15:36:20,776  INFO SchemaUpdate:105 - HHH000228: Running hbm2ddl schema update
+2017-12-22 15:36:36,374  INFO WebLogAspect:35 - URL : http://localhost:8080/goods/add
+2017-12-22 15:36:36,374  INFO WebLogAspect:36 - HTTP_METHOD : GET
+2017-12-22 15:36:36,375  INFO WebLogAspect:37 - IP : 0:0:0:0:0:0:0:1
+2017-12-22 15:36:36,378  INFO WebLogAspect:38 - CLASS_METHOD : com.mall.controller.GoodsController.add
+2017-12-22 15:36:36,378  INFO WebLogAspect:39 - ARGS : [{}, null]
+2017-12-22 15:36:36,412  INFO QueryTranslatorFactoryInitiator:47 - HHH000397: Using ASTQueryTranslatorFactory
+2017-12-22 15:36:36,580  INFO WebLogAspect:45 - RESPONSE : goods/add
+2017-12-22 15:37:20,703  INFO DruidDataSource:1050 - {dataSource-1} closed
+2017-12-22 15:37:22,351 ERROR DruidDataSource:570 - testOnBorrow is true, validationQuery not set
+2017-12-22 15:37:22,352  WARN DruidDataSource:590 - Your dbType is mysql, recommend set testWhileIdle is true
+2017-12-22 15:37:22,354  INFO DruidDataSource:456 - {dataSource-2} inited
+2017-12-22 15:37:22,393  INFO LogHelper:31 - HHH000204: Processing PersistenceUnitInfo [
+	name: default
+	...]
+2017-12-22 15:37:22,420  INFO Dialect:156 - HHH000400: Using dialect: org.hibernate.dialect.MySQL5Dialect
+2017-12-22 15:37:22,471  INFO SchemaUpdate:105 - HHH000228: Running hbm2ddl schema update
+2017-12-22 15:37:29,897  INFO WebLogAspect:35 - URL : http://localhost:8080/goods/add
+2017-12-22 15:37:29,898  INFO WebLogAspect:36 - HTTP_METHOD : GET
+2017-12-22 15:37:29,898  INFO WebLogAspect:37 - IP : 0:0:0:0:0:0:0:1
+2017-12-22 15:37:29,899  INFO WebLogAspect:38 - CLASS_METHOD : com.mall.controller.GoodsController.add
+2017-12-22 15:37:29,899  INFO WebLogAspect:39 - ARGS : [{}, null]
+2017-12-22 15:37:29,906  INFO QueryTranslatorFactoryInitiator:47 - HHH000397: Using ASTQueryTranslatorFactory
+2017-12-22 15:37:29,916  INFO WebLogAspect:45 - RESPONSE : goods/add
+2017-12-22 15:37:29,917 ERROR WebLogAspect:47 - 测试Error日志
