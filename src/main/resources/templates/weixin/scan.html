@@ -34,7 +34,9 @@
             needResult: 1,
             desc: 'scanQRCode desc',
             success: function (res) {
-                alert(JSON.stringify(res));
+                if (res.resultStr) {
+                    window.location.href="/goods?barcode=" + res.resultStr;
+                }
             }
         });
     });

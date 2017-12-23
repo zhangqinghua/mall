@@ -82,6 +82,11 @@ public class GoodsController {
     public String index(Model model, Long id, String barcode) {
         Goods goods = id == null ? goodsService.findByBarcode(barcode) : goodsService.findOne(id);
 
+        // 如果不存在此产品，则跳转到新建页面
+        if (goods == null) {
+            return "redirect:add?barcode=" + barcode;
+        }
+
 
         // 产品分类列表，电子产品-手机-苹果手机
         List<Category> categories = new ArrayList<>();
