@@ -35,7 +35,7 @@
             desc: 'scanQRCode desc',
             success: function (res) {
                 if (res.resultStr) {
-                    window.location.href="/goods/update/" + res.resultStr.split(",")[1];
+                    window.location.href="/goods/update?barcode=" + res.resultStr.split(",")[1];
                 }
             }
         });
