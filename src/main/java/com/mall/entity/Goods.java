@@ -27,7 +27,7 @@ public class Goods {
      * 商品图片
      */
     @Column(length = 1000)
-    private String img="";
+    private String img = "";
 
     /**
      * 商品名称
@@ -43,12 +43,12 @@ public class Goods {
     /**
      * 参考进货价，单位分
      */
-    private Integer purchasePrice;
+    private Integer purchasePrice = 0;
 
     /**
      * 参考卖价，单位分
      */
-    private Integer salePrice;
+    private Integer salePrice = 0;
 
     /**
      * 简介

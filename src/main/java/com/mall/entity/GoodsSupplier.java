@@ -20,5 +20,5 @@ public class GoodsSupplier {
     @JoinColumn(name = "supplierId", referencedColumnName = "id")
     private Supplier supplier;
 
-    private Integer purchasePrice;
+    private Integer purchasePrice = 0;
 }
