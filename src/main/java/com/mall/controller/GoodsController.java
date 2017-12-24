@@ -52,8 +52,8 @@ public class GoodsController {
     @RequestMapping(value = "/add", method = RequestMethod.POST)
     public String add(Goods goods) {
         goodsService.add(goods);
-        return "redirect:index?id=" + goods.getId();
-
+        // return "redirect:index?id=" + goods.getId();
+        return "redirect:/weixin/scan";
     }
 
     @RequestMapping(value = "/update", method = RequestMethod.GET)

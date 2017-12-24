@@ -23,7 +23,7 @@
         <h3 th:text="${title==null ? '创建新产品' : title}"></h3>
         <fieldset>
             <div class="review0" id="upload-pick-div">
-                <label>展示图片（200 * 200）</label>
+                <label>展示图片（200 * 200）<em class="required">*</em></label>
                 <ul class="upload-pick-ul">
                     <li class="upload-pick-li" th:if="${goods.img != null}" th:each="img: ${#strings.arraySplit(goods.img, ',')}">
                         <img th:attr="src=${img}" style="width: 100%; height: 100%;">
@@ -39,7 +39,7 @@
             <div class="review1">
                 <ul>
                     <li>
-                        <label>产品名称<em class="required">*</em></label>
+                        <label>产品名称</label>
                         <div>
                             <input class="input-text" type="text" name="name" th:value="${goods.name}" placeholder="请输入产品名称">
                         </div>
@@ -314,16 +314,16 @@
         if (img.length > 0) {
             img = img.substring(0, img.length - 1);
         } else {
-//            alert("请上传产品展示图片！")
-//            return false;
+            alert("请上传产品展示图片！")
+            return false;
         }
         $("input[name=img]").val(img);
 
         //  产品名称检查
-        if (!$("input[name=name]").val()) {
-            alert("请输入产品名称！");
-            return false;
-        }
+//        if (!$("input[name=name]").val()) {
+//            alert("请输入产品名称！");
+//            return false;
+//        }
 
         // 条形码检查
         if (!$("input[name=barcode]").val()) {

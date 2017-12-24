@@ -32,7 +32,7 @@ public class Goods {
     /**
      * 商品名称
      */
-    @Column(nullable = false, length = 50)
+    @Column(length = 50)
     private String name;
 
     /**
