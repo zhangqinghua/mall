@@ -57,9 +57,9 @@ public class GoodsController {
     }
 
     @RequestMapping(value = "/update/{id}", method = RequestMethod.GET)
-    public String update(Model model, @PathVariable Long id) {
+    public String update(Model model, @PathVariable Long id, String barcode) {
 
-        Goods goods = goodsService.findOne(id);
+        Goods goods = id == null ? goodsService.findByBarcode(barcode) : goodsService.findOne(id);
 
         Page<Category> categoriePage = categoryService.findAll();
         Page<Supplier> suppliersPage = supplierService.findAll();

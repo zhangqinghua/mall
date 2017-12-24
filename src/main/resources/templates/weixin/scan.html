@@ -7,6 +7,11 @@
     <!--并引入js库-->
     <script src="http://res.wx.qq.com/open/js/jweixin-1.1.0.js"></script>
     <script src="http://libs.baidu.com/jquery/2.0.0/jquery.js"></script>
+    <style>
+        body {
+            background: black;
+        }
+    </style>
 </head>
 <body>
 </body>
@@ -35,7 +40,7 @@
             desc: 'scanQRCode desc',
             success: function (res) {
                 if (res.resultStr) {
-                    window.location.href="/goods?barcode=" + res.resultStr;
+                    window.location.href="/goods/update/" + res.resultStr;
                 }
             }
         });
