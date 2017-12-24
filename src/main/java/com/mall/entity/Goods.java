@@ -36,6 +36,11 @@ public class Goods {
     private String name;
 
     /**
+     * 产品状态，0下架，1上架，2删除
+     */
+    private Integer status = 0;
+
+    /**
      * 商品精选级别可设置1~5级，1级别最高，每个店铺必备，以后依次降低；1：必选，2：精选，3：普通，4：备选，5：参考。
      */
     private Integer rating = 3;
@@ -43,12 +48,12 @@ public class Goods {
     /**
      * 参考进货价，单位分
      */
-    private Integer purchasePrice = 0;
+    private Integer purchasePrice;
 
     /**
      * 参考卖价，单位分
      */
-    private Integer salePrice = 0;
+    private Integer salePrice;
 
     /**
      * 简介

@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>产品已存在</title>
+    <div th:replace="common"/>
+    <!-- 需要先加载common里面的样式才能加载add.css -->
+    <link rel="stylesheet" href="/css/goods/add.css">
+
+
+</head>
+<body>
+<div class="container">
+    <form method="get" action="/weixin/scan">
+        <!-- 表单标题 -->
+        <h3>产品已存在</h3>
+        <fieldset>
+            <div class="review0" id="upload-pick-div">
+                <label>产品图片（200 * 200）<em class="required">*</em></label>
+                <ul class="upload-pick-ul">
+                    <li class="upload-pick-li" th:if="${goods.img != null}" th:each="img: ${#strings.arraySplit(goods.img, ',')}">
+                        <img th:attr="src=${img}" style="width: 100%; height: 100%;">
+                        <input type="file" class="upload-pick-input" accept="image/*">
+                    </li>
+                </ul>
+            </div>
+
+            <div class="review1">
+                <ul>
+                    <li>
+                        <label>产品名称</label>
+                        <div>
+                            <input class="input-text" type="text" name="name" th:value="${goods.name}" placeholder="未填写产品名称" disabled>
+                        </div>
+                    </li>
+                    <li>
+                        <label class="required">产品条形码<em>*</em></label>
+                        <div class="input-box">
+                            <input type="text" class="input-text" name="barcode" th:value="${goods.barcode}" placeholder="未填写产品条形码" disabled>
+                        </div>
+                    </li>
+                    <li>
+                        <label class="required">进货价（分）</label>
+                        <div class="input-box">
+                            <input type="text" class="input-text" name="purchasePrice" th:value="${goods.purchasePrice}" placeholder="未设置进货价" disabled>
+                        </div>
+                    </li>
+                    <li>
+                        <label class="required">售卖价（分）</label>
+                        <div class="input-box">
+                            <input type="text" class="input-text" name="salePrice" th:value="${goods.salePrice}" placeholder="未设置售卖价" disabled>
+                        </div>
+                    </li>
+                    <li>
+                        <label class="required">分类</label>
+                        <div class="input-box">
+                            <select name="category.id" disabled>
+                                <option value="">无</option>
+                                <option th:each="obj, iterStat : ${categories}"
+                                        th:value="${obj.id}"
+                                        th:inline="text"
+                                        th:selected="${goods.category != null && obj.id==goods.category.id}">
+                                    [[${obj.name}]]
+                                </option>
+                            </select>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="review2">
+                <ul>
+                    <li>
+                        <label>精选级别</label>
+                        <div>
+                            <table>
+                                <thead>
+                                <tr class="first last">
+                                    <th><span class="nobr">必选</span></th>
+                                    <th><span class="nobr">精选</span></th>
+                                    <th><span class="nobr">普通</span></th>
+                                    <th><span class="nobr">备选</span></th>
+                                    <th><span class="nobr">参考</span></th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr class="first odd">
+                                    <td class="value">
+                                        <input type="radio" class="radio" value="1" name="rating" th:checked="${goods.rating==1}" disabled>
+                                    </td>
+                                    <td class="value">
+                                        <input type="radio" class="radio" value="2" name="rating" th:checked="${goods.rating==2}" disabled>
+                                    </td>
+                                    <td class="value">
+                                        <input type="radio" class="radio" value="3" name="rating" th:checked="${goods.rating==3 || goods.rating == null}" disabled>
+                                    </td>
+                                    <td class="value">
+                                        <input type="radio" class="radio" value="4" name="rating" th:checked="${goods.rating==4}" disabled>
+                                    </td>
+                                    <td class="value last">
+                                        <input type="radio" class="radio" value="5" name="rating" th:checked="${goods.rating==5}" disabled>
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </li>
+                    <li>
+                        <label>供应商列表
+                        </label>
+                        <div>
+                            <table class="table-striped">
+                                <thead>
+                                <tr class="first last">
+                                    <th width="30%"><span>供应商</span></th>
+                                    <th width="30%"><span>价格（分）</span></th>
+                                </tr>
+                                </thead>
+                                <tbody id="goodsSupplier_body">
+                                <tr th:each="goodsSupplier, iterStat: ${goods.goodsSuppliers}" th:inline="text">
+                                    <td>
+                                        <input type="hidden" th:attr="name='goodsSuppliers['+${iterStat.index}+'].id'" th:value="${goodsSupplier.id}">
+                                        <input type="hidden" th:attr="name='goodsSuppliers['+${iterStat.index}+'].supplier.id'" th:value="${goodsSupplier.supplier.id}">
+                                        [[${goodsSupplier.supplier.name}]]
+                                    </td>
+                                    <td>
+                                        <input type="hidden" th:attr="name='goodsSuppliers['+${iterStat.index}+'].purchasePrice'" th:value="${goodsSupplier.purchasePrice}">
+                                        [[${goodsSupplier.purchasePrice}]]
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+            <div class="buttons-set">
+                <button class="button submit" title="Submit Review" type="submit"><span>继续扫描</span></button>
+            </div>
+        </fieldset>
+    </form>
+</div>
+</body>
+</html>

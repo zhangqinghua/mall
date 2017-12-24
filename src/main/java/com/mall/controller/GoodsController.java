@@ -17,7 +17,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -81,7 +80,7 @@ public class GoodsController {
     /**
      * 查询单个商品
      *
-     * @return
+     * @return 产品详细页面
      */
     @RequestMapping("/index")
     public String index(Model model, Long id, String barcode) {
@@ -116,7 +115,7 @@ public class GoodsController {
     /**
      * 查询多个商品
      *
-     * @return
+     * @return 产品列表
      */
     @RequestMapping("/list")
     public String list(Model model, @RequestParam(defaultValue = "1") Integer pageNo) {
@@ -134,11 +133,52 @@ public class GoodsController {
     /**
      * 删掉单个商品
      *
-     * @return
+     * @return 产品列表
      */
     @RequestMapping("/delete/{id}")
     public String delete(@PathVariable Long id) {
         goodsService.delete(id);
         return "redirect:../list";
+    }
+
+    /**
+     * 微信扫条形码，如果不存在此产品新跳转到简单添加页面
+     *
+     * @param model   Springboot页面模型
+     * @param barcode 条形码
+     * @return 新增产品页面
+     */
+    @RequestMapping(value = "/weixin_add", method = RequestMethod.GET)
+    public String weixin_add(Model model, String barcode) {
+        model.addAttribute("barcode", barcode);
+        return "goods/weixin_add";
+    }
+
+    /**
+     * 添加新产品简短表单提交后，跳转到扫一扫页面继续添加
+     *
+     * @param goods 产品实体
+     * @return 微信扫一扫页面
+     */
+    @RequestMapping(value = "/weixin_add", method = RequestMethod.POST)
+    public String weixin_add(Goods goods) {
+        goodsService.add(goods);
+        return "weixin/scan";
+    }
+
+
+    /**
+     * 微信扫条形码，如果已经存在此产品了，则展示
+     *
+     * @return 展示页面
+     */
+    @RequestMapping("/weixin_show")
+    public String weixin_show(Model model, String barcode) {
+        Goods goods = goodsService.findByBarcode(barcode);
+        if (goods == null) {
+            return weixin_add(model, barcode);
+        }
+        model.addAttribute("goods", goods);
+        return "goods/weixin_show";
     }
 }
