@@ -14,12 +14,12 @@
     <style>
 
         /*表格文字限制在一行*/
-        table{
+        table {
             table-layout: fixed;
 
         }
 
-        td{
+        td {
             overflow: hidden;
             white-space: nowrap;
             text-overflow: ellipsis;
@@ -51,9 +51,15 @@
 
                 <tr th:if="${totalNum != 0}"
                     th:each="obj, iterStat : ${list}">
-                    <td th:text="${iterStat.index}" />
-                    <td th:text="${obj.name}" />
-                    <td th:text="${obj.category.name}" />
+
+                    <td th:text="${iterStat.index}"/>
+
+                    <td th:if="${obj.name==null}">未设置产品名称</td>
+                    <td th:if="${obj.name!=null}" th:text="${obj.name}"/>
+
+                    <td th:if="${obj.category == null}">未设置</td>
+                    <td th:if="${obj.category != null}" th:text="${obj.category.name}"/>
+
                     <td th:switch="${obj.rating}">
                         <p th:case="1">必选</p>
                         <p th:case="2">精选</p>
@@ -61,8 +67,12 @@
                         <p th:case="4">备选</p>
                         <p th:case="5">参考</p>
                     </td>
-                    <td th:text="${obj.purchasePrice / 100.0} + '元'" />
-                    <td th:text="${obj.salePrice / 100.0} + '元'" />
+
+                    <td th:if="${obj.purchasePrice==null}">未设置</td>
+                    <td th:if="${obj.purchasePrice!=null}" th:text="${obj.purchasePrice / 100.0} + '元'"/>
+
+                    <td th:if="${obj.salePrice==null}">未设置</td>
+                    <td th:if="${obj.salePrice!=null}" th:text="${obj.salePrice / 100.0} + '元'"/>
 
                     <td>
                         <div class="table-fun">
@@ -70,6 +80,7 @@
                             <a th:href="@{'delete/' + ${obj.id}}">删除</a>
                         </div>
                     </td>
+
                 </tr>
                 <tr th:if="${totalNum == 0}">
                     <td colspan="4">没有数据</td>

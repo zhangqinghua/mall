@@ -35,13 +35,11 @@ public class GoodsController {
 
 
     @RequestMapping(value = "/add", method = RequestMethod.GET)
-    public String add(Model model, String barcode) {
+    public String add(Model model) {
         Page<Category> categoriePage = categoryService.findAll();
         Page<Supplier> suppliersPage = supplierService.findAll();
 
-
         Goods goods = new Goods();
-        goods.setBarcode(barcode);
         model.addAttribute("goods", goods);
         model.addAttribute("categories", categoriePage.getContent());
         model.addAttribute("suppliers", suppliersPage.getContent());
@@ -51,23 +49,20 @@ public class GoodsController {
     @RequestMapping(value = "/add", method = RequestMethod.POST)
     public String add(Goods goods) {
         goodsService.add(goods);
-        // return "redirect:index?id=" + goods.getId();
-        return "redirect:/weixin/scan";
+        return "redirect:index?id=" + goods.getId();
     }
 
-    @RequestMapping(value = "/update", method = RequestMethod.GET)
-    public String update(Model model, Long id, String barcode) {
+    @RequestMapping(value = "/update/{id}", method = RequestMethod.GET)
+    public String update(Model model, @PathVariable Long id) {
+        Goods goods = goodsService.findOne(id);
 
-        Goods goods = id == null ? goodsService.findByBarcode(barcode) : goodsService.findOne(id);
-
+        // 不存在此产品，则跳转到新增页面
         if (goods == null) {
-            goods = new Goods();
-            goods.setBarcode(barcode);
+            return "forward:add";
         }
 
         Page<Category> categoriePage = categoryService.findAll();
         Page<Supplier> suppliersPage = supplierService.findAll();
-
 
         model.addAttribute("title", "编辑产品");
         model.addAttribute("goods", goods);
