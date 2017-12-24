@@ -61,6 +61,11 @@ public class GoodsController {
 
         Goods goods = id == null ? goodsService.findByBarcode(barcode) : goodsService.findOne(id);
 
+        if (goods == null) {
+            goods = new Goods();
+            goods.setBarcode(barcode);
+        }
+
         Page<Category> categoriePage = categoryService.findAll();
         Page<Supplier> suppliersPage = supplierService.findAll();
 
