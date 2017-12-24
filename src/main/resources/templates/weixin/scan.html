@@ -29,18 +29,13 @@
         ] // 必填，需要使用的JS接口列表，所有JS接口列表见附录2
     });
 
-    //初始化jsapi接口 状态
-    wx.error(function (res) {
-        alert("调用微信jsapi返回的状态:" + res.errMsg);
-    });
-
     wx.ready(function () {
         wx.scanQRCode({
             needResult: 1,
             desc: 'scanQRCode desc',
             success: function (res) {
                 if (res.resultStr) {
-                    window.location.href="/goods/update/" + res.resultStr;
+                    window.location.href="/goods/update/" + res.resultStr.split(",")[1];
                 }
             }
         });

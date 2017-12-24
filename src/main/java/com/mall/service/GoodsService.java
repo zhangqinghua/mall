@@ -35,8 +35,10 @@ public class GoodsService {
     }
 
     public boolean add(Goods goods) {
-        if (goods.getCategory() != null) {
+        if (goods.getCategory() != null && goods.getCategory().getId() != null) {
             goods.setCategory(categoryDAO.findOne(goods.getCategory().getId()));
+        } else {
+            goods.setCategory(null);
         }
 
         if (goods.getGoodsSuppliers() != null) {
