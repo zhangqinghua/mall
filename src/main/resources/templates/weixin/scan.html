@@ -39,7 +39,7 @@
                 cancel: function () {
                     // 用户点击取消时的回调函数，仅部分有用户取消操作的api才会用到。
                     alert("用户点击取消时的回调函数");
-                    window.close();
+                    WeixinJSBridge.call('closeWindow');
                 }
             });
         });
