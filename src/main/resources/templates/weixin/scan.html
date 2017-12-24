@@ -31,7 +31,7 @@
                 success: function (res) {
                     // 接口调用成功时执行的回调函数。
                     if (res.resultStr) {
-                        window.location.href = "/goods/update?barcode=" + res.resultStr.split(",")[1];
+                        window.location.href = "/goods/weixin_show?barcode=" + res.resultStr.split(",")[1];
                     } else {
                         alert("扫描条形码失败：" + res);
                     }
