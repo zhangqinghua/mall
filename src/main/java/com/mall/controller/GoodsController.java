@@ -163,7 +163,7 @@ public class GoodsController {
     @RequestMapping(value = "/weixin_add", method = RequestMethod.POST)
     public String weixin_add(Goods goods) {
         goodsService.add(goods);
-        return "redirect:weixin/scan";
+        return "redirect:/weixin/scan";
     }
 
 
