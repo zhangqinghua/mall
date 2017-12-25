@@ -9,10 +9,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -52,5 +49,12 @@ public class SupplierController {
     public String delete(Model model, Long id) {
         supplierService.delete(id);
         return "forward:index";
+    }
+
+    @RequestMapping("/test")
+    @ResponseBody
+    public String test() {
+        Page<Supplier> page = supplierService.find(new PageRequest(1 - 1, 10));
+        return page.getContent().get(0).getGoodsSuppliers().size() + "";
     }
 }

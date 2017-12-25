@@ -2,24 +2,34 @@ package com.mall.entity;
 
 import lombok.*;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
+import java.util.List;
 
-@Entity
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 @Getter
 @Setter
-@NoArgsConstructor // 自动生成无参数构造函数
-@AllArgsConstructor // 自动生成全参数构造函数
-@Data //  自动为所有字段添加@ToString, @EqualsAndHashCode, @Getter方法，为非final字段添加@Setter,和@RequiredArgsConstructor!
+@Data
+@Entity
 public class Supplier {
 
+    /**
+     * 主键，自动增长
+     */
     @Id
     @GeneratedValue
     private Long id;
 
+    /**
+     * 供应商名称
+     */
     @Column(nullable = false)
     private String name;
 
+    /**
+     * 供应商所拥有的产品报价
+     */
+    @OneToMany(mappedBy = "supplier")
+    private List<GoodsSupplier> goodsSuppliers;
 }

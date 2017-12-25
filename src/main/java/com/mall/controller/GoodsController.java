@@ -37,12 +37,12 @@ public class GoodsController {
     @RequestMapping(value = "/add", method = RequestMethod.GET)
     public String add(Model model) {
         Page<Category> categoriePage = categoryService.findAll();
-        Page<Supplier> suppliersPage = supplierService.findAll();
+        List<Supplier> suppliers = supplierService.findAll();
 
         Goods goods = new Goods();
         model.addAttribute("goods", goods);
         model.addAttribute("categories", categoriePage.getContent());
-        model.addAttribute("suppliers", suppliersPage.getContent());
+        model.addAttribute("suppliers", suppliers);
         return "goods/add";
     }
 
@@ -62,12 +62,12 @@ public class GoodsController {
         }
 
         Page<Category> categoriePage = categoryService.findAll();
-        Page<Supplier> suppliersPage = supplierService.findAll();
+        List<Supplier> suppliers = supplierService.findAll();
 
         model.addAttribute("title", "编辑产品");
         model.addAttribute("goods", goods);
         model.addAttribute("categories", categoriePage.getContent());
-        model.addAttribute("suppliers", suppliersPage.getContent());
+        model.addAttribute("suppliers", suppliers);
         return "goods/add";
     }
 
@@ -115,8 +115,9 @@ public class GoodsController {
     @RequestMapping("/list")
     public String list(Model model, @RequestParam(defaultValue = "1") Integer pageNo) {
         Page<Goods> page = goodsService.find(new PageRequest(pageNo - 1, 10));
+        List<Supplier> suppliers = supplierService.findAll();
 
-
+        model.addAttribute("suppliers", suppliers);
         model.addAttribute("list", page.getContent());
         model.addAttribute("totalNum", page.getTotalElements());
         model.addAttribute("totalPage", page.getTotalPages());
@@ -176,4 +177,6 @@ public class GoodsController {
         model.addAttribute("goods", goods);
         return "goods/weixin_show";
     }
+
+
 }

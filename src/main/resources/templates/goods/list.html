@@ -36,6 +36,13 @@
             <div class="public-content-right fr">
                 <a href="add" style="height: 24px; width: 60px;border: 1px solid #ccc;font-size: 12px;text-align:center;padding: 4px;border-radius: 1px;font-weight: normal">添加产品</a>
             </div>
+            <div class="public-content-right fr">
+                <select style="height: 26px;border-radius: 1px;border: 1px solid #ccc;margin-right: 10px" id="exportGoodsSupplier">
+                    <option>请选择供应商导出报价数据</option>
+                    <option value="all">所有供应商</option>
+                    <option th:each="obj : ${suppliers}" th:value="${obj.id}" th:text="${obj.name}"/>
+                </select>
+            </div>
         </div>
         <div class="public-content-cont two-col">
             <table class="public-cont-table" style="width:100%">
@@ -115,4 +122,15 @@
         }
     });
     kkpager.generPageHtml();
+
+    $("#exportGoodsSupplier").change(function () {
+        var selectSupplierId = $(this, "option:selected").val();
+        if (selectSupplierId == '') {
+            return;
+        } else if (selectSupplierId == "all") {
+            window.open("/goodsSupplier/export");
+        } else {
+            window.open("/goodsSupplier/export?supplierId=" + selectSupplierId);
+        }
+    });
 </script>

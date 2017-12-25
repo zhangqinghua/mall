@@ -9,6 +9,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
+
 
 @Component
 public class SupplierService {
@@ -16,14 +18,17 @@ public class SupplierService {
     @Autowired
     private SupplierDAO dao;
 
-    public Page<Supplier> findAll() {
-        return find(new PageRequest(0, 1000, Sort.Direction.ASC, "id"));
+    public List<Supplier> findAll() {
+        return (List<Supplier>) dao.findAll();
     }
 
     public Page<Supplier> find(Pageable pageable) {
         return dao.findAll(pageable);
     }
 
+    public Supplier findOne(Long id) {
+        return dao.findOne(id);
+    }
 
     public boolean save(Supplier supplier) {
         dao.save(supplier);

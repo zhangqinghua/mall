@@ -106,13 +106,16 @@
 
                 <tr th:if="${totalNum != 0}"
                     th:each="category, iterStat : ${list}">
+                    <td style="display: none" th:if="${category.parent==null}"></td>
+                    <td style="display: none" th:if="${category.parent!=null}" th:text="${category.parent.id}" />
+
                     <td th:text="${iterStat.index}"></td>
                     <td th:text="${category.id}"></td>
                     <!--<td th:text="${category.parent == null ? '无' : category.parent.name + '(' + category.parent.id + ')'}"></td>-->
                     <td th:text="${category.name}" style="text-align: left"></td>
                     <td>
                         <div class="table-fun">
-                            <a href="#" th:attr="onclick='update('+${iterStat.index}+')'">修改</a>
+                            <a href="#" onclick="update(this)">修改</a>
                             <a th:href="@{'/category/delete?id=' + ${category.id}}">删除</a>
                         </div>
                     </td>
@@ -134,13 +137,14 @@
 </html>
 
 <script th:inline="javascript">
+
     //生成分页控件 根据分页的形式在这里设置
     kkpager.init({
         pno: [[${pageNo}]],
         //总页码
         total: [[${totalPage}]],
         //总数据条数
-        totalRecords: [[${list}]],
+        totalRecords: [[${totalNum}]],
         //链接前部
         hrefFormer: 'index',
         //链接尾部
@@ -151,20 +155,16 @@
     });
     kkpager.generPageHtml();
 
-    var categories = [[${list}]];
+    var update = function(button) {
+        var id = $(button).parent().parent().parent().find("td")[2].innerHTML;
+        var name = $(button).parent().parent().parent().find("td")[3].innerHTML;
+        var parentId = $(button).parent().parent().parent().find("td")[0].innerHTML;
 
-    /**
-     * 修改供应商
-     * @param id
-     */
-    var update = function (index) {
         $("#save_form").hide()
         $("#update_form").show();
 
-        $("#update_id").val(categories[index].id);
-        $("#update_name").val(categories[index].name.replace(/=/g,''));
-
-        var parentId = categories[index].parent != null ? categories[index].parent.id : "";
+        $("#update_id").val(id);
+        $("#update_name").val(name.replace(/=/g, ''));
 
         $.each($("#update_parent > option"), function () {
             if ($(this).val() == parentId) {
@@ -173,5 +173,7 @@
                 $(this).attr("selected", false);
             }
         });
-    }
+    };
+
+
 </script>

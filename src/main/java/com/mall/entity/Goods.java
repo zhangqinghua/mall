@@ -5,14 +5,18 @@ import lombok.*;
 import javax.persistence.*;
 import java.util.List;
 
-@Entity
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 @Getter
 @Setter
-@NoArgsConstructor // 自动生成无参数构造函数
-@AllArgsConstructor // 自动生成全参数构造函数
-@Data //  自动为所有字段添加@ToString, @EqualsAndHashCode, @Getter方法，为非final字段添加@Setter,和@RequiredArgsConstructor!
+@Data
+@Entity
 public class Goods {
 
+    /**
+     * 主键，自动增长
+     */
     @Id
     @GeneratedValue
     private Long id;
@@ -24,7 +28,7 @@ public class Goods {
     private String barcode;
 
     /**
-     * 商品图片
+     * 商品图片，多张用,分隔开
      */
     @Column(length = 1000)
     private String img = "";
@@ -70,12 +74,13 @@ public class Goods {
     /**
      * 所属分类
      */
-    @OneToOne(cascade = {CascadeType.PERSIST})
-    @JoinColumn(name = "categoryId", referencedColumnName = "id")
+    @ManyToOne
     private Category category;
 
-    @OneToMany(cascade = {CascadeType.ALL})
-    @JoinColumn(name = "goodsId", referencedColumnName = "id")
+    /**
+     * 所拥有的供应商报价表
+     */
+    @OneToMany(mappedBy = "goods")
     private List<GoodsSupplier> goodsSuppliers;
 
 

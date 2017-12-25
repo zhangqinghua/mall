@@ -83,7 +83,7 @@
                     <td th:text="${supplier.name}"></td>
                     <td>
                         <div class="table-fun">
-                            <a href="#" th:attr="onclick='update('+${iterStat.index}+')'" >修改</a>
+                            <a href="#" onclick="update(this)">修改</a>
                             <a th:href="@{'/supplier/delete?id=' + ${supplier.id}}">删除</a>
                         </div>
                     </td>
@@ -122,17 +122,14 @@
     });
     kkpager.generPageHtml();
 
-    var suppliers = [[${list}]];
+    var update = function(button) {
+        var id = $(button).parent().parent().parent().find("td")[1].innerHTML;
+        var name = $(button).parent().parent().parent().find("td")[2].innerHTML;
 
-    /**
-     * 修改供应商
-     * @param id
-     */
-    var update = function (index) {
         $("#save_form").hide()
         $("#update_form").show();
 
-        $("#update_id").val(suppliers[index].id);
-        $("#update_name").val(suppliers[index].name);
-    }
+        $("#update_id").val(id);
+        $("#update_name").val(name);
+    };
 </script>
