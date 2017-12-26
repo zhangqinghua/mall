@@ -19,7 +19,7 @@ public class CategoryController {
 
 
     @RequestMapping({"/", "/index"})
-    public String index(Model model) {
+    public String index(Model model) throws Exception {
         Page<Category> page = service.findAll();
 
         model.addAttribute("list", page.getContent());
@@ -31,14 +31,14 @@ public class CategoryController {
     }
 
     @RequestMapping(value = "/save", method = RequestMethod.POST)
-    public String save(Category entity) {
+    public String save(Category entity) throws Exception {
         service.save(entity);
         return "forward:index";
     }
 
 
     @RequestMapping("/delete")
-    public String delete(Long id) {
+    public String delete(Long id) throws Exception {
         service.delete(id);
         return "forward:index";
     }

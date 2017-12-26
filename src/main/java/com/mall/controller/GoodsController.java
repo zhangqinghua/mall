@@ -35,7 +35,7 @@ public class GoodsController {
 
 
     @RequestMapping(value = "/add", method = RequestMethod.GET)
-    public String add(Model model) {
+    public String add(Model model)  throws Exception{
         Page<Category> categoriePage = categoryService.findAll();
         List<Supplier> suppliers = (List<Supplier>) supplierService.findAll();
 
@@ -47,13 +47,13 @@ public class GoodsController {
     }
 
     @RequestMapping(value = "/add", method = RequestMethod.POST)
-    public String add(Goods goods) {
+    public String add(Goods goods)  throws Exception{
         goodsService.save(goods);
         return "redirect:index?id=" + goods.getId();
     }
 
     @RequestMapping(value = "/update/{id}", method = RequestMethod.GET)
-    public String update(Model model, @PathVariable Long id) {
+    public String update(Model model, @PathVariable Long id) throws Exception {
         Goods goods = goodsService.findOne(id);
 
         // 不存在此产品，则跳转到新增页面
@@ -78,7 +78,7 @@ public class GoodsController {
      * @return 产品详细页面
      */
     @RequestMapping("/index")
-    public String index(Model model, Long id, String barcode) {
+    public String index(Model model, Long id, String barcode)  throws Exception{
         Goods goods = id == null ? goodsService.findByBarcode(barcode) : goodsService.findOne(id);
 
         // 如果不存在此产品，则跳转到新建页面
@@ -113,7 +113,7 @@ public class GoodsController {
      * @return 产品列表
      */
     @RequestMapping("/list")
-    public String list(Model model, @RequestParam(defaultValue = "1") Integer pageNo) {
+    public String list(Model model, @RequestParam(defaultValue = "1") Integer pageNo) throws Exception {
         Page<Goods> page = goodsService.findAll(new PageRequest(pageNo - 1, 10));
         List<Supplier> suppliers = (List<Supplier>) supplierService.findAll();
 
@@ -132,7 +132,7 @@ public class GoodsController {
      * @return 产品列表
      */
     @RequestMapping("/delete/{id}")
-    public String delete(@PathVariable Long id) {
+    public String delete(@PathVariable Long id) throws Exception {
         goodsService.delete(id);
         return "redirect:../list";
     }
@@ -157,7 +157,7 @@ public class GoodsController {
      * @return 微信扫一扫页面
      */
     @RequestMapping(value = "/weixin_add", method = RequestMethod.POST)
-    public String weixin_add(Goods goods) {
+    public String weixin_add(Goods goods) throws Exception {
         goodsService.save(goods);
         return "redirect:/weixin/scan";
     }
@@ -169,7 +169,7 @@ public class GoodsController {
      * @return 展示页面
      */
     @RequestMapping("/weixin_show")
-    public String weixin_show(Model model, String barcode) {
+    public String weixin_show(Model model, String barcode)  throws Exception{
         Goods goods = goodsService.findByBarcode(barcode);
         if (goods == null) {
             return weixin_add(model, barcode);

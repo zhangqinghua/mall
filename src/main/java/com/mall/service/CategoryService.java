@@ -18,7 +18,7 @@ public class CategoryService extends BaseService<Category> {
      *
      * @return 分类页实例
      */
-    public Page<Category> findAll() {
+    public Page<Category> findAll()throws Exception {
         Page<Category> page = super.findAll(new PageRequest(0, 1000, Sort.Direction.ASC, "sort"));
         for (Category category : page) {
             int len = category.getSort().split("-").length;
@@ -40,7 +40,7 @@ public class CategoryService extends BaseService<Category> {
      * @return 分类实例
      */
     @Override
-    public Category save(Category category) {
+    public Category save(Category category)throws Exception {
         if (category.getParent().getId() != null) {
             category.setParent(super.findOne(category.getParent().getId()));
         } else {
@@ -69,7 +69,7 @@ public class CategoryService extends BaseService<Category> {
      * @param id 分类编号
      */
     @Override
-    public void delete(Long id) {
+    public void delete(Long id)throws Exception {
         Category category = super.findOne(id);
 
         if (category.getChildren().size() != 0) {

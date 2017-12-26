@@ -1,6 +1,6 @@
 package com.mall.utils;
 
-import com.mall.entity.RespBody;
+import com.mall.vo.ErrorInfo;
 import com.qiniu.common.QiniuException;
 import com.qiniu.common.Zone;
 import com.qiniu.http.Response;
@@ -50,8 +50,8 @@ public class QiniuUploadUtil {
     }
 
 
-    public RespBody uploadPhoto(byte[] data, String fileName) {
-        RespBody result = new RespBody();
+    public ErrorInfo uploadPhoto(byte[] data, String fileName) {
+        ErrorInfo result = new ErrorInfo();
         try {
             // xx.jpg -> 2017/10/22/0010101.jpg
             fileName = getFilePath(fileName.substring(fileName.lastIndexOf(".")));

@@ -9,7 +9,7 @@ import org.springframework.stereotype.Component;
 import javax.transaction.Transactional;
 
 @Component
-public class GoodsService extends BaseService<Goods> implements GoodsRepository {
+public class GoodsService extends BaseService<Goods> {
 
     @Autowired
     private GoodsRepository goodsRepository;
@@ -27,7 +27,7 @@ public class GoodsService extends BaseService<Goods> implements GoodsRepository 
      * @return 产品实例
      */
     @Transactional
-    public Goods save(Goods goods) {
+    public Goods save(Goods goods) throws Exception {
         /*
          * 判断是否已经存在此条形码产品
          */
@@ -69,7 +69,7 @@ public class GoodsService extends BaseService<Goods> implements GoodsRepository 
      * @param barcode 条形码
      * @return 产品实例
      */
-    public Goods findByBarcode(String barcode) {
+    public Goods findByBarcode(String barcode) throws Exception {
         return goodsRepository.findByBarcode(barcode);
     }
 
@@ -81,7 +81,7 @@ public class GoodsService extends BaseService<Goods> implements GoodsRepository 
      *
      * @param id 产品ID
      */
-    public void delete(Long id) {
+    public void delete(Long id) throws Exception {
         Goods goods = super.findOne(id);
         if (goods != null) {
             goodsSupplierService.deleteByGoods(goods);

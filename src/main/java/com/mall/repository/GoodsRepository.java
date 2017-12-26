@@ -5,6 +5,6 @@ import org.springframework.data.repository.PagingAndSortingRepository;
 
 public interface GoodsRepository extends PagingAndSortingRepository<Goods, Long> {
 
-    Goods findByBarcode(String barcode);
+    Goods findByBarcode(String barcode) throws Exception;
 
 }

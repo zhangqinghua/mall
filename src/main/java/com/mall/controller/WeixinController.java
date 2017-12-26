@@ -1,6 +1,6 @@
 package com.mall.controller;
 
-import com.mall.utils.JSON;
+import com.mall.vo.JSON;
 import com.mall.utils.Utils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;

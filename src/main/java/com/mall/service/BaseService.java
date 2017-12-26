@@ -6,73 +6,60 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.repository.PagingAndSortingRepository;
 
-public class BaseService<T> implements PagingAndSortingRepository<T, Long>{
+public class BaseService<T> {
 
     @Autowired
     private PagingAndSortingRepository<T, Long> repository;
 
-    @Override
-    public Iterable<T> findAll(Sort sort) {
+    public Iterable<T> findAll(Sort sort) throws Exception {
         return repository.findAll(sort);
     }
 
-    @Override
-    public Page<T> findAll(Pageable pageable) {
+    public Page<T> findAll(Pageable pageable) throws Exception {
         return repository.findAll(pageable);
     }
 
-    @Override
-    public <S extends T> S save(S s) {
+    public <S extends T> S save(S s) throws Exception {
         return repository.save(s);
     }
 
-    @Override
-    public <S extends T> Iterable<S> save(Iterable<S> iterable) {
+    public <S extends T> Iterable<S> save(Iterable<S> iterable) throws Exception {
         return repository.save(iterable);
     }
 
-    @Override
-    public T findOne(Long aLong) {
+    public T findOne(Long aLong) throws Exception {
         return repository.findOne(aLong);
     }
 
-    @Override
-    public boolean exists(Long aLong) {
+    public boolean exists(Long aLong) throws Exception {
         return repository.exists(aLong);
     }
 
-    @Override
-    public Iterable<T> findAll() {
+    public Iterable<T> findAll() throws Exception {
         return repository.findAll();
     }
 
-    @Override
-    public Iterable<T> findAll(Iterable<Long> iterable) {
+    public Iterable<T> findAll(Iterable<Long> iterable) throws Exception {
         return repository.findAll(iterable);
     }
 
-    @Override
-    public long count() {
+    public long count() throws Exception {
         return repository.count();
     }
 
-    @Override
-    public void delete(Long aLong) {
+    public void delete(Long aLong) throws Exception {
         repository.delete(aLong);
     }
 
-    @Override
-    public void delete(T t) {
+    public void delete(T t) throws Exception {
         repository.delete(t);
     }
 
-    @Override
-    public void delete(Iterable<? extends T> iterable) {
+    public void delete(Iterable<? extends T> iterable) throws Exception {
         repository.delete(iterable);
     }
 
-    @Override
-    public void deleteAll() {
+    public void deleteAll() throws Exception {
         repository.deleteAll();
     }
 }

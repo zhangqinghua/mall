@@ -14,7 +14,7 @@ public class SupplierService extends BaseService<Supplier> {
      * @param aLong 供应商ID
      */
     @Override
-    public void delete(Long aLong) {
+    public void delete(Long aLong) throws Exception {
         Supplier supplier = super.findOne(aLong);
         if (supplier.getGoodsSuppliers().size() != 0) {
             return;

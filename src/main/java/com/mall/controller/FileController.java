@@ -1,6 +1,6 @@
 package com.mall.controller;
 
-import com.mall.entity.RespBody;
+import com.mall.vo.ErrorInfo;
 import com.mall.utils.QiniuUploadUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
@@ -23,17 +23,17 @@ public class FileController {
 
     @RequestMapping(value = "/upload", method = RequestMethod.POST)
     @ResponseBody
-    public RespBody upload(String fileName, String size, String data) {
-        RespBody respBody = new RespBody(false, "文件上传失败", null);
+    public ErrorInfo upload(String fileName, String size, String data) {
+        ErrorInfo<String> errorInfo = new ErrorInfo<>(false, "上传失败", "", "");
         try {
             // BASE64 解密图片文件
             byte[] fileData = new BASE64Decoder().decodeBuffer(data);
             // 上传图片
-            respBody = qiniuUploadUtil.uploadPhoto(fileData, fileName);
+            errorInfo = qiniuUploadUtil.uploadPhoto(fileData, fileName);
         } catch (Exception e) {
-            respBody.setMsg(respBody.getMsg() + ": " + e.toString());
+            errorInfo.setMsg(errorInfo.getMsg() + ": " + e.getMessage());
         }
-        return respBody;
+        return errorInfo;
     }
 
     @RequestMapping("/**")
@@ -43,7 +43,7 @@ public class FileController {
 
 
     @RequestMapping("/test")
-    public String test() {
-        return "/test";
+    public String test() throws Exception {
+        throw new Exception("测试异常");
     }
 }

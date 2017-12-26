@@ -1,4 +1,4 @@
-package com.mall.utils;
+package com.mall.vo;
 
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;

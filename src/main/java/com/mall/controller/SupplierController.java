@@ -20,7 +20,7 @@ public class SupplierController {
     private SupplierService supplierService;
 
     @RequestMapping({"/", "/index"})
-    public String index(Model model, @RequestParam(defaultValue = "1") Integer pageNo) {
+    public String index(Model model, @RequestParam(defaultValue = "1") Integer pageNo) throws Exception{
         Page<Supplier> page = supplierService.findAll(new PageRequest(pageNo - 1, 10));
 
         model.addAttribute("list", page.getContent());
@@ -32,18 +32,18 @@ public class SupplierController {
     }
 
     @RequestMapping(value = "/save", method = RequestMethod.GET)
-    public String save() {
+    public String save() throws Exception {
         return "supplier/save";
     }
 
     @RequestMapping(value = "/save", method = RequestMethod.POST)
-    public String save(Supplier supplier) {
+    public String save(Supplier supplier) throws Exception {
         supplierService.save(supplier);
         return "forward:index";
     }
 
     @RequestMapping(value = "/delete", method = RequestMethod.GET)
-    public String delete(Long id) {
+    public String delete(Long id) throws Exception {
         supplierService.delete(id);
         return "forward:index";
     }
