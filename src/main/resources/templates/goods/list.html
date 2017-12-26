@@ -38,7 +38,7 @@
             </div>
             <div class="public-content-right fr">
                 <select style="height: 26px;border-radius: 1px;border: 1px solid #ccc;margin-right: 10px" id="exportGoodsSupplier">
-                    <option>请选择供应商导出报价数据</option>
+                    <option value="">请选择供应商导出报价数据</option>
                     <option value="all">所有供应商</option>
                     <option th:each="obj : ${suppliers}" th:value="${obj.id}" th:text="${obj.name}"/>
                 </select>
@@ -90,7 +90,7 @@
 
                 </tr>
                 <tr th:if="${totalNum == 0}">
-                    <td colspan="4">没有数据</td>
+                    <td colspan="7">没有数据</td>
                 </tr>
 
             </table>

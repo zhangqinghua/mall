@@ -92,12 +92,6 @@ public class GoodsSupplierController {
         titleStyle.setVerticalAlignment(XSSFCellStyle.VERTICAL_CENTER);
 
         for (Supplier supplier : suppliers) {
-
-            // 如果此供应商没有产品报价则不处理
-            if (supplier.getGoodsSuppliers().size() == 0) {
-                continue;
-            }
-
             Sheet sheet = xlsx.createSheet(supplier.getName());
             sheet.setColumnWidth(0, 3000);
             sheet.setColumnWidth(1, 10000);
@@ -121,6 +115,12 @@ public class GoodsSupplierController {
             cell = row.createCell(3);
             cell.setCellStyle(titleStyle);
             cell.setCellValue("销售价（分）");
+
+            // 如果此供应商没有产品报价则不处理
+            if (supplier.getGoodsSuppliers().size() == 0) {
+                continue;
+            }
+
 
             for (int i = 0; i < supplier.getGoodsSuppliers().size(); i++) {
                 GoodsSupplier goodsSupplier = supplier.getGoodsSuppliers().get(i);
