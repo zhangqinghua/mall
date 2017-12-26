@@ -1,52 +1,39 @@
 package com.mall.service;
 
-import com.mall.dao.CategoryDAO;
-import com.mall.dao.GoodsDAO;
-import com.mall.dao.GoodsSupplierDAO;
-import com.mall.dao.SupplierDAO;
+import com.mall.repository.GoodsRepository;
 import com.mall.entity.Goods;
 import com.mall.entity.GoodsSupplier;
-import com.mall.entity.Supplier;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Component;
 
 import javax.transaction.Transactional;
-import java.util.Iterator;
-import java.util.List;
 
 @Component
-public class GoodsService {
+public class GoodsService extends BaseService<Goods> implements GoodsRepository {
 
     @Autowired
-    private GoodsDAO goodsDAO;
+    private GoodsRepository goodsRepository;
     @Autowired
-    private CategoryDAO categoryDAO;
-    @Autowired
-    private SupplierDAO supplierDAO;
-    @Autowired
-    private GoodsSupplierDAO goodsSupplierDAO;
+    private GoodsSupplierService goodsSupplierService;
 
 
-    public Page<Goods> findAll() {
-        return find(new PageRequest(0, 1000, Sort.Direction.ASC, "id"));
-    }
-
-    public Page<Goods> find(Pageable pageable) {
-        return goodsDAO.findAll(pageable);
-    }
-
+    /**
+     * 保存产品
+     * 1. 判断条形码是否已经存在
+     * 2. 分类处理，产品类作为发出端
+     * 3. 报价表处理，需要保存产品后
+     *
+     * @param goods 产品实例
+     * @return 产品实例
+     */
     @Transactional
-    public boolean add(Goods goods) {
+    public Goods save(Goods goods) {
         /*
          * 判断是否已经存在此条形码产品
          */
-        Goods goodsByBarcode = goodsDAO.findByBarcode(goods.getBarcode());
-        if (goodsByBarcode != null) {
-            return false;
+        Goods goodsByBarcode = findByBarcode(goods.getBarcode());
+        if (goodsByBarcode != null && goodsByBarcode.getId().equals(goods.getId())) {
+            return goods;
         }
 
         /*
@@ -57,37 +44,48 @@ public class GoodsService {
             goods.setCategory(null);
         }
 
-        goodsDAO.save(goods);
+        super.save(goods);
 
         /*
          * 因为goodsSupplier是一对多关系的发出端，只能由它自己保存这份关系。先查出所有报价，然后比较是删除还是修改
          * 这里删除需要先把goods持久化之后才能进行操作，即goods.getId() != null
          */
-        goodsSupplierDAO.deleteByGoods(goods);
+        goodsSupplierService.deleteByGoods(goods);
         for (int i = 0; goods.getGoodsSuppliers() != null && i < goods.getGoodsSuppliers().size(); i++) {
             GoodsSupplier goodsSupplier = goods.getGoodsSuppliers().get(i);
-            if (goodsSupplier == null || goodsSupplier.getSupplier() == null) {
-                continue;
-            } else {
+            if (goodsSupplier != null && goodsSupplier.getSupplier() != null) {
                 goodsSupplier.setGoods(goods);
-                goodsSupplierDAO.save(goodsSupplier);
+                goodsSupplierService.save(goodsSupplier);
             }
         }
 
-        return true;
+        return goods;
     }
 
-    public Goods findOne(Long id) {
-        return goodsDAO.findOne(id);
-    }
 
+    /**
+     * 根据条形码查找产品
+     *
+     * @param barcode 条形码
+     * @return 产品实例
+     */
     public Goods findByBarcode(String barcode) {
-        return goodsDAO.findByBarcode(barcode);
+        return goodsRepository.findByBarcode(barcode);
     }
 
 
-    public boolean delete(Long id) {
-        goodsDAO.delete(id);
-        return true;
+    /**
+     * 删除产品
+     * 1. 删除报价表
+     * 2. 删除产品
+     *
+     * @param id 产品ID
+     */
+    public void delete(Long id) {
+        Goods goods = super.findOne(id);
+        if (goods != null) {
+            goodsSupplierService.deleteByGoods(goods);
+            super.delete(goods);
+        }
     }
 }

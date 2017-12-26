@@ -40,4 +40,10 @@ public class FileController {
     public String file(HttpServletRequest request) {
         return "redirect:" + environment.getProperty("file_url") + request.getServletPath();
     }
+
+
+    @RequestMapping("/test")
+    public String test() {
+        return "/test";
+    }
 }

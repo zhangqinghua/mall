@@ -44,7 +44,7 @@ public class GoodsSupplierController {
 
 
         // 查找所有供应商处理，
-        List<Supplier> suppliers = supplierId != null ? Arrays.asList(supplierService.findOne(supplierId)) : supplierService.findAll();
+        List<Supplier> suppliers = supplierId != null ? Arrays.asList(supplierService.findOne(supplierId)) : (List<Supplier>) supplierService.findAll();
 
 
         ByteArrayOutputStream bos = new ByteArrayOutputStream();

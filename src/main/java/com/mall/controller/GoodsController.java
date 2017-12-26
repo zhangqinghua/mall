@@ -37,7 +37,7 @@ public class GoodsController {
     @RequestMapping(value = "/add", method = RequestMethod.GET)
     public String add(Model model) {
         Page<Category> categoriePage = categoryService.findAll();
-        List<Supplier> suppliers = supplierService.findAll();
+        List<Supplier> suppliers = (List<Supplier>) supplierService.findAll();
 
         Goods goods = new Goods();
         model.addAttribute("goods", goods);
@@ -48,7 +48,7 @@ public class GoodsController {
 
     @RequestMapping(value = "/add", method = RequestMethod.POST)
     public String add(Goods goods) {
-        goodsService.add(goods);
+        goodsService.save(goods);
         return "redirect:index?id=" + goods.getId();
     }
 
@@ -62,7 +62,7 @@ public class GoodsController {
         }
 
         Page<Category> categoriePage = categoryService.findAll();
-        List<Supplier> suppliers = supplierService.findAll();
+        List<Supplier> suppliers = (List<Supplier>) supplierService.findAll();
 
         model.addAttribute("title", "编辑产品");
         model.addAttribute("goods", goods);
@@ -114,8 +114,8 @@ public class GoodsController {
      */
     @RequestMapping("/list")
     public String list(Model model, @RequestParam(defaultValue = "1") Integer pageNo) {
-        Page<Goods> page = goodsService.find(new PageRequest(pageNo - 1, 10));
-        List<Supplier> suppliers = supplierService.findAll();
+        Page<Goods> page = goodsService.findAll(new PageRequest(pageNo - 1, 10));
+        List<Supplier> suppliers = (List<Supplier>) supplierService.findAll();
 
         model.addAttribute("suppliers", suppliers);
         model.addAttribute("list", page.getContent());
@@ -158,7 +158,7 @@ public class GoodsController {
      */
     @RequestMapping(value = "/weixin_add", method = RequestMethod.POST)
     public String weixin_add(Goods goods) {
-        goodsService.add(goods);
+        goodsService.save(goods);
         return "redirect:/weixin/scan";
     }
 
